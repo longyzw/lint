@@ -12,4 +12,11 @@ program
         Lint.init()
     })
 
+program
+    .command('clear')
+    .description('clear config and script')
+    .action(() => {
+        Lint.clear()
+    })
+
 program.parse()

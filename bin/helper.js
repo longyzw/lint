@@ -144,6 +144,8 @@ const installLintDependencies = async () => {
   execSync("npm install");
 
   setPackageJsonSettings([{ "scripts.prepare": "husky install" }]);
+  // 初始化仓库地址，防止pre-commit钩子关联失败
+  execSync("git init");
   execSync("npm run prepare");
 };
 
@@ -193,7 +195,7 @@ const getLatestLintDependencies = async (dependencies) => {
 
 /**
  * 添加dependencies到package.json文件的devDependencies中, 并排序
- * @param {string[]} dependencies 依赖列表, 例如 ['eslint@^8.39.0', 'prettier@^2.8.8']
+ * @param {string[]} dependencies 依赖列表, 例如 ['eslint@^8.40.0', 'prettier@^2.8.8']
  */
 const addLintDependencies = (dependencies) => {
   const packagePath = getPackageJsonPath();
@@ -235,7 +237,7 @@ const setPackageJsonSettings = (settings) => {
 };
 
 /**
- * 根据lintTarget批量生成lint配置文件到项目的根目录
+ * 批量生成lint配置文件到项目的根目录
  * @param {string}
  */
 const generateLintConfigs = () => {
@@ -280,7 +282,7 @@ const getProjectName = () => {
 
 /**
  * .vscode/settings.json文件
- * 这里为固定内容，包含了eslint、prettier、stylelint等配置
+ * 包含了eslint、prettier、stylelint等配置
  */
 const generateVscodeSettings = () => {
   const processDir = getProcessDir();
@@ -299,7 +301,7 @@ const generateVscodeSettings = () => {
 
 /**
  * .vscode/extensions.json文件
- * 这里为固定内容，包含了校验需要依赖的插件配置
+ * 包含了校验需要依赖的插件配置
  */
 const generateVscodeExtensions = () => {
   const processDir = getProcessDir();
