@@ -1,4 +1,6 @@
-const { Command }  = require('commander')
+#!/usr/bin/env node
+
+const { Command } = require('commander')
 const Lint = require('./lint')
 
 const program = new Command()
