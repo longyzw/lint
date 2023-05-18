@@ -1,4 +1,4 @@
-module.exports = `
+
 /dist/*
 .local
 .output.js
@@ -10,4 +10,3 @@ src/.DS_Store
 
 /public/*
 components.d.ts
-`

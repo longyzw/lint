@@ -1,4 +1,4 @@
-module.exports = `
+
 *.sh
 node_modules
 *.md
@@ -37,4 +37,3 @@ dist-ssr
 *.sw?
 
 components.d.ts
-`

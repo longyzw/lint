@@ -241,9 +241,11 @@ const setPackageJsonSettings = (settings) => {
  * @param {string}
  */
 const generateLintConfigs = () => {
+  const configPath = path.join(__dirname, "./../");
   const lintTarget = ["eslint", "stylelint", "commitlint", "prettier"];
   // 获取当前项目名称
-  const projectName = getProjectName();
+  const _projectName = getProjectName();
+  const projectName = _projectName === 'ly-lint' ? '.' : _projectName;
   const processDir = getProcessDir();
   lintTarget.forEach((item) => {
     const isCommitLint = item === "commitlint";
@@ -251,38 +253,22 @@ const generateLintConfigs = () => {
     const lintConfigPath = path.join(processDir, fileName);
 
     if (isCommitLint) {
-      writeFileSync(
-        lintConfigPath,
-        JSON.stringify(require("./../config/commitlint/index.js"), null, 2)
-      );
+      const content = `module.exports = {\n  extends: [require.resolve('${projectName}/config/commitlint')],\n  rules: {}\n}
+      `;
+      writeFileSync(lintConfigPath, content);
       return;
     } else {
       // 配置文件
-      const content = `
-      const config = require('${projectName}/config/${item}')
-  
-      module.exports = config({})
-      `;
+      const content = `const config = require('${projectName}/config/${item}')\n\nmodule.exports = config({})`;
       writeFileSync(lintConfigPath, content);
 
       // 忽略文件
       const lintIgnorePath = path.join(processDir, `.${item}ignore`);
-      const ignoreContent = require(`./../config/${item}/ignore`);
+      const ignoreContent = require(`${configPath}/config/${item}/ignore`);
 
       writeFileSync(lintIgnorePath, ignoreContent);
     }
   });
-
-  const tsConfigPath = path.join(processDir, `tsconfig.json`);
-  const tsNodePath = path.join(processDir, `tsconfig.node.json`);
-  writeFileSync(
-    tsConfigPath,
-    JSON.stringify(require("./../config/ts/index.json"), null, 2)
-  );
-  writeFileSync(
-    tsNodePath,
-    JSON.stringify(require("./../config/ts/node.json"), null, 2)
-  );
 };
 
 /**

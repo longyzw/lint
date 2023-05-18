@@ -15,5 +15,5 @@ module.exports = (rules = {}) => ({
   rangeEnd: Infinity,
   proseWrap: 'always', // 使用默认的折行标准
   htmlWhitespaceSensitivity: 'css', // 根据显示样式决定html要不要折行
-  endOfLine: 'lf', // 换行符使用lf
+  endOfLine: 'lf' // 换行符使用lf
 })

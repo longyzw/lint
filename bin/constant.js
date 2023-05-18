@@ -35,38 +35,35 @@ const PRETTIER_PRESETS = {
  * 依赖
  */
 const LINT_DEPENDENCIES = [
+  ...['@commitlint/cli', '@commitlint/config-conventional'],
   ...[
-    '@commitlint/cli',
-    '@commitlint/config-conventional',
+    'typescript',
+    '@types/eslint',
+    '@types/node',
+    '@typescript-eslint/eslint-plugin',
+    '@typescript-eslint/parser',
+    'vue-tsc'
   ],
   ...[
-    "typescript",
-    "@types/eslint",
-    "@types/node",
-    "@typescript-eslint/eslint-plugin",
-    "@typescript-eslint/parser",
-    "vue-tsc",
+    'eslint',
+    'eslint-config-prettier',
+    'eslint-import-resolver-alias',
+    'eslint-plugin-prettier',
+    'eslint-plugin-vue',
+    'vite-plugin-eslint',
+    'prettier'
   ],
   ...[
-    "eslint",
-    "eslint-config-prettier",
-    "eslint-import-resolver-alias",
-    "eslint-plugin-prettier",
-    "eslint-plugin-vue",
-    "vite-plugin-eslint",
-    "prettier"
-  ],
-  ...[
-    "stylelint",
-    "stylelint-config-recess-order",
-    "stylelint-config-recommended-scss",
-    "stylelint-config-recommended-vue",
-    "stylelint-config-standard",
-    "stylelint-config-standard-scss",
-    "stylelint-prettier",
-    "vite-plugin-stylelint",
-    "postcss",
-    "postcss-html"
+    'stylelint',
+    'stylelint-config-recess-order',
+    'stylelint-config-recommended-scss',
+    'stylelint-config-recommended-vue',
+    'stylelint-config-standard',
+    'stylelint-config-standard-scss',
+    'stylelint-prettier',
+    'vite-plugin-stylelint',
+    'postcss',
+    'postcss-html'
   ]
 ]
 
@@ -99,4 +96,4 @@ module.exports = {
   LINT_DEPENDENCIES,
   ALL_LINT_DEPENDENCIES_REGEXP,
   VSCODE_EXTENSIONS
-};
+}

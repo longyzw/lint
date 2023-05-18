@@ -1,11 +1,11 @@
 {
   "name": "ly-lint",
-  "version": "0.0.10",
+  "version": "0.0.11",
   "description": "统一lint风格",
-  "main": "index.js",
   "scripts": {
     "lint:eslint": "vue-tsc --noEmit && eslint . --ext .vue,.js,.jsx,.cjs,.ts,.tsx --fix --ignore-path .eslintignore",
-    "lint:css": "stylelint **/*.{vue,css,sass,scss} --fix"
+    "lint:css": "stylelint **/*.{vue,css,sass,scss} --fix",
+    "prepare": "husky install"
   },
   "bin": {
     "ly-lint": "./bin/index.js"
@@ -27,12 +27,32 @@
     "inquirer": "^8.2.5"
   },
   "devDependencies": {
-    "@types/node": "^20.1.7",
+    "@commitlint/cli": "^17.6.3",
+    "@commitlint/config-conventional": "^17.6.3",
+    "@types/eslint": "^8.37.0",
+    "@types/node": "^20.2.0",
+    "@typescript-eslint/eslint-plugin": "^5.59.6",
+    "@typescript-eslint/parser": "^5.59.6",
+    "eslint": "^8.40.0",
+    "eslint-config-prettier": "^8.8.0",
+    "eslint-import-resolver-alias": "^1.1.2",
+    "eslint-plugin-prettier": "^4.2.1",
+    "eslint-plugin-vue": "^9.13.0",
     "husky": "^8.0.3",
     "lint-staged": "^13.2.2",
     "postcss": "^8.4.23",
     "postcss-html": "^1.5.0",
+    "prettier": "^2.8.8",
+    "stylelint": "^15.6.2",
+    "stylelint-config-recess-order": "^4.0.0",
+    "stylelint-config-recommended-scss": "^11.0.0",
+    "stylelint-config-recommended-vue": "^1.4.0",
+    "stylelint-config-standard": "^33.0.0",
+    "stylelint-config-standard-scss": "^9.0.0",
+    "stylelint-prettier": "^3.0.0",
     "typescript": "^5.0.4",
+    "vite-plugin-eslint": "^1.8.1",
+    "vite-plugin-stylelint": "^4.3.0",
     "vue-tsc": "^1.6.5"
   },
   "lint-staged": {
