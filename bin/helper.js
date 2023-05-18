@@ -246,28 +246,43 @@ const generateLintConfigs = () => {
   const projectName = getProjectName();
   const processDir = getProcessDir();
   lintTarget.forEach((item) => {
-    const fileName =
-      item === "commitlint" ? "commitlint.config.cjs" : `.${item}rc.cjs`;
+    const isCommitLint = item === "commitlint";
+    const fileName = isCommitLint ? "commitlint.config.js" : `.${item}rc.cjs`;
     const lintConfigPath = path.join(processDir, fileName);
 
-    const content = `
-    const config = require('${projectName}/config/${item}')
+    if (isCommitLint) {
+      writeFileSync(
+        lintConfigPath,
+        JSON.stringify(require("./../config/commitlint/index.js"), null, 2)
+      );
+      return;
+    } else {
+      // 配置文件
+      const content = `
+      const config = require('${projectName}/config/${item}')
+  
+      module.exports = config({})
+      `;
+      writeFileSync(lintConfigPath, content);
 
-    module.exports = config({})
-    `;
-    writeFileSync(lintConfigPath, content);
+      // 忽略文件
+      const lintIgnorePath = path.join(processDir, `.${item}ignore`);
+      const ignoreContent = require(`./../config/${item}/ignore`);
 
-    if (item === "commitlint") return;
-    const lintIgnorePath = path.join(processDir, `.${item}ignore`);
-    const ignoreContent = require(`./../config/${item}/ignore`);
-
-    writeFileSync(lintIgnorePath, ignoreContent);
+      writeFileSync(lintIgnorePath, ignoreContent);
+    }
   });
 
   const tsConfigPath = path.join(processDir, `tsconfig.json`);
   const tsNodePath = path.join(processDir, `tsconfig.node.json`);
-  writeFileSync(tsConfigPath, JSON.stringify(require('./../config/ts/index.json'), null, 2));
-  writeFileSync(tsNodePath, JSON.stringify(require('./../config/ts/node.json'), null, 2));
+  writeFileSync(
+    tsConfigPath,
+    JSON.stringify(require("./../config/ts/index.json"), null, 2)
+  );
+  writeFileSync(
+    tsNodePath,
+    JSON.stringify(require("./../config/ts/node.json"), null, 2)
+  );
 };
 
 /**
@@ -307,12 +322,12 @@ const generateVscodeExtensions = () => {
   const processDir = getProcessDir();
   const extensionsPath = path.join(processDir, ".vscode/extensions.json");
   const extensionsContent = {
-    "recommendations": [
+    recommendations: [
       "Vue.volar",
       "dbaeumer.vscode-eslint",
       "esbenp.prettier-vscode",
-      "stylelint.vscode-stylelint"
-    ]
+      "stylelint.vscode-stylelint",
+    ],
   };
   writeFileSync(extensionsPath, JSON.stringify(extensionsContent, null, 2));
 };

@@ -42,7 +42,7 @@ const init = async () => {
     removeLintDependencies();
     success("成功移除已存在的Lint配置", spinner);
   }
-  
+
   const spinner = loading("正在初始化Lint配置...");
   // 安装依赖
   await installLintDependencies();
@@ -65,20 +65,6 @@ const init = async () => {
   success("成功初始化Lint配置", spinner);
 };
 
-const clear = async() => {
-  // 检查node环境
-  const isNodeEnvOk = checkNodeEnv();
-  if (!isNodeEnvOk) return;
-  // 检查Lint的配置文件是否已存在
-  const { installedLintConfigList } = checkLintEnv();
-  const spinner = loading("正在移除已存在Lint配置...");
-    // 当配置文件已存在时，移除已存在的配置文件与依赖
-    removeFiles(installedLintConfigList);
-    removeLintDependencies();
-    success("成功移除已存在的Lint配置", spinner);
-}
-
 module.exports = {
   init,
-  clear
 };
