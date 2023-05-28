@@ -37,6 +37,10 @@ const INQUIER = {
       { value: "pnpm", name: "pnpm" },
     ],
   },
+  // 配置选择
+  lintChioce: {
+    
+  }
 };
 
 /**
@@ -54,45 +58,70 @@ const PKG_MANAGE = {
 };
 
 /**
- * Lint相关依赖及版本号
+ * Lint相关配置及版本号
  */
-const LINT_PLUGINS = [
-  ...[
+const LINT_ALL = {
+  eslint: [
+    "eslint@8.40.0",
+    "eslint-import-resolver-alias@1.1.2",
+  ],
+  prettier: [
+    "eslint-config-prettier@8.8.0",
+    "eslint-plugin-prettier@4.2.1",
+    "prettier@2.8.8",
+  ],
+  husky: [
+    "husky@8.0.3",
+    "lint-staged@13.2.2",
+  ],
+  commitlint: [
+    "@commitlint/cli@17.6.3",
+    "@commitlint/config-conventional@17.6.3",
+  ],
+  stylelint: [
+    "stylelint@15.6.1",
+    "stylelint-prettier@3.0.0",
+    "stylelint-config-recess-order@4.0.0",
+    "stylelint-config-standard@33.0.0",
+    "postcss@8.4.23",
+    "postcss-html@1.5.0",
+  ],
+  typescript: [
     "typescript@5.0.2",
     "@types/eslint@8.37.0",
     "@types/node@20.1.1",
     "@typescript-eslint/eslint-plugin@5.59.5",
     "@typescript-eslint/parser@5.59.5",
-    "vue-tsc@1.4.2",
   ],
-  ...[
-    "eslint@8.40.0",
-    "eslint-config-prettier@8.8.0",
-    "eslint-import-resolver-alias@1.1.2",
-    "eslint-plugin-prettier@4.2.1",
-    "eslint-plugin-vue@9.11.1",
-    "vite-plugin-eslint@1.8.1",
-    "prettier@2.8.8",
-  ],
-  ...[
-    "stylelint@15.6.1",
-    "stylelint-config-recess-order@4.0.0",
+  vue: {
+    vue2: [
+
+    ],
+    vue3: [
+      "eslint-plugin-vue@9.11.1",
+    ],
+    typescript: [
+      "vue-tsc@1.4.2",
+    ],
+    stylelint: [
+      "stylelint-config-recommended-vue@1.4.0",
+    ]
+
+  },
+  sass: [
     "stylelint-config-recommended-scss@11.0.0",
-    "stylelint-config-recommended-vue@1.4.0",
-    "stylelint-config-standard@33.0.0",
     "stylelint-config-standard-scss@9.0.0",
-    "stylelint-prettier@3.0.0",
-    "vite-plugin-stylelint@4.3.0",
-    "postcss@8.4.23",
-    "postcss-html@1.5.0",
   ],
-  ...[
-    "husky@8.0.3",
-    "lint-staged@13.2.2",
-    "@commitlint/cli@17.6.3",
-    "@commitlint/config-conventional@17.6.3",
-  ],
-];
+  vite: {
+    default: [
+      "vite-plugin-eslint@1.8.1",
+    ],
+    stylelint: [
+      "vite-plugin-stylelint@4.3.0",
+    ]
+  }
+}
+ 
 
 /**
  * Lint相关文件配置
