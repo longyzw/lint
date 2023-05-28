@@ -1,5 +1,4 @@
-module.exports = `
-# @see: http://editorconfig.org
+module.exports = `# @see: http://editorconfig.org
 ​
 root = true
 ​
