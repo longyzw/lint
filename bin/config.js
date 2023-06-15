@@ -27,6 +27,42 @@ const INQUIER = {
     name: "isClearConf",
     message: `已存在 Lint 相关配置，是否清除？`,
   },
+  // 选择搭配
+  lintOptions: {
+    style: {
+      type: "confirm",
+      name: "useStyle",
+      message: `是否使用stylelint？`,
+    },
+    typeScript: {
+      type: "confirm",
+      name: "useTypeScript",
+      message: `是否使用TypeScript？`,
+    },
+    commit: {
+      type: "confirm",
+      name: "useCommitLint",
+      message: `是否添加pre-commit和commit-msg配置？`,
+    },
+    scaffold: {
+      type: "list",
+      name: "useScaffold",
+      message: "请选择脚手架工具",
+      choices: [
+        { value: "vite", name: "Vite" },
+        { value: "webpack", name: "Webpack" },
+      ],
+    },
+    framework: {
+      type: "list",
+      name: "framework",
+      message: "请选择一个包管理器进行后续操作?",
+      choices: [
+        { value: "vue3", name: "Vue3" },
+        { value: "vue2", name: "Vue2" },
+      ],
+    }
+  },
   // 包管理器
   iPkgManageType: {
     type: "list",
@@ -37,10 +73,6 @@ const INQUIER = {
       { value: "pnpm", name: "pnpm" },
     ],
   },
-  // 配置选择
-  lintChioce: {
-    
-  }
 };
 
 /**

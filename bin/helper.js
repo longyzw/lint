@@ -39,8 +39,13 @@ const checkLintPlugin = () => {
 /**
  * 添加lint执行脚本到package.json文件的scripts中，以及 lint-staged配置
  */
-const addLintScripts = () => {
+const addLintScripts = (configs=[]) => {
   const packagePath = `${process.cwd()}/package.json`
+  const eslintOptions = {
+    vue2: ['.vue'],
+    vue3: ['.vue'],
+    typeScript: ['.ts', '.tsx'],
+  }
   writePackageJson(packagePath, packageJson => {
     const { scripts = {} } = packageJson
     // 删除相似功能脚本配置
@@ -52,8 +57,18 @@ const addLintScripts = () => {
         scripts[k] = v.replace('vue-tsc --noEmit &&', '').replace('vue-tsc &&', '').trim()
       }
     })
-    scripts['lint:eslint'] =
-      'vue-tsc --noEmit && eslint . --ext .vue,.js,.jsx,.cjs,.ts,.tsx --fix --ignore-path .eslintignore'
+    // 申明eslint格式化指令
+    let commandLint = 'eslint . --ext .js,.jsx,.cjs'
+    if (configs.includes('typeScript')) {
+      commandLint = `vue-tsc --noEmit && ${commandLint}`
+    }
+    const patternList = []
+    configs.map((item) => {
+      patternList.concat(eslintOptions[item] || [])
+    })
+    commandLint += `${patternList.join(',')}  --fix --ignore-path .eslintignore`
+
+    scripts['lint:eslint'] = commandLint
     scripts['lint:css'] = 'stylelint **/*.{vue,css,sass,scss} --fix'
 
     packageJson.scripts = scripts
@@ -65,8 +80,13 @@ const addLintScripts = () => {
   })
 }
 
+const getPlugins = (configs=[]) => {
+  return []
+}
+
 module.exports = {
   checkLintFile,
   checkLintPlugin,
   addLintScripts,
+  getPlugins,
 };

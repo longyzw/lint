@@ -32,31 +32,55 @@ const clear = async () => {
 const init = async () => {
   // 检测node环境
   if (!checkNodeEnv()) return
+
+  const lintConfigList = ['eslint', 'prettier']
+
+  const { framework } = await inquirer.prompt([INQUIER.lintOptions.framework])
+  lintConfigList.push(framework)
+
+  if (['vue3'].includes(framework)) {
+    const { useTypeScript } = await inquirer.prompt([INQUIER.lintOptions.typeScript])
+    if(useTypeScript) lintConfigList.push('typeScript')
+  }
+
+  const { useCommitLint } = await inquirer.prompt([INQUIER.lintOptions.commit])
+  if (useCommitLint) lintConfigList.concat(['husky', 'commitlint'])
+
+  const { useScaffold } = await inquirer.prompt([INQUIER.lintOptions.scaffold])
+  lintConfigList.push(useScaffold)
+
+  // 选择包管理器
   const { iPkgManageType } = await inquirer.prompt([INQUIER.iPkgManageType])
+
+  const lintPlugins = getPlugins(lintConfigList)
+
+  console.log('===', lintConfigList, lintPlugins);
 
   // 安装lint相关依赖
   const spinner = loading('正在安装相关依赖...')
-  execSync(`${PKG_MANAGE[iPkgManageType].add} -D ${LINT_PLUGINS.join(' ')}`)
+  execSync(`${PKG_MANAGE[iPkgManageType].add} -D ${lintPlugins.join(' ')}`)
   success('成功安装Lint相关依赖', spinner)
 
   // 生成lint配置文件
-  LINT_FILES.map(item => writeFileSync(item.path, item.content))
-  success('成功生成Lint配置文件')
+  // LINT_FILES.map(item => writeFileSync(item.path, item.content))
+  // success('成功生成Lint配置文件')
 
-  // 初始化git，防止git钩子函数关联报错
-  execSync('git init')
-  execSync('npx husky install')
+  if (lintConfigList.includes('husky')) {
+    // 初始化git，防止git钩子函数关联报错
+    execSync('git init')
+    execSync('npx husky install')
 
-  // 生成husky配置文件
-  HUSKY_FILES.map(item => writeFileSync(item.path, item.content))
-  success('成功生成Husky配置文件')
+    // 生成husky配置文件
+    HUSKY_FILES.map(item => writeFileSync(item.path, item.content))
+    success('成功生成Husky配置文件')
+  }
 
   // 生成.vscode配置文件
   VSCODE_FILES.map(item => writeFileSync(item.path, item.content))
   success('成功生成.vscode配置文件')
 
   // 添加lint相关执行脚本
-  addLintScripts()
+  addLintScripts(lintConfigList)
   success('成功添加lint相关执行脚本')
 
   console.log(chalk.green('>> 成功初始化Lint所有配置'))
