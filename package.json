@@ -1,42 +1,38 @@
 {
-  "name": "ly-lint",
-  "version": "0.1.0",
+  "name": "@dp/lint",
+  "version": "0.3.0",
   "description": "统一lint风格",
-  "scripts": {
-    "prepare": "husky install",
-    "lint:eslint": "vue-tsc --noEmit && eslint . --ext .vue,.js,.jsx,.cjs,.ts,.tsx --fix --ignore-path .eslintignore",
-    "lint:css": "stylelint **/*.{vue,css,sass,scss} --fix"
-  },
   "bin": {
-    "ly-lint": "./bin/index.js"
+    "@dp/lint": "./bin/index.js"
   },
   "keywords": [
     "lint",
     "eslint",
     "prettier",
     "stylelint",
+    "typescript",
     "husky",
     "commitlint",
     "vue3",
-    "vite"
+    "vue2",
+    "vite",
+    "webpack"
   ],
   "author": "Kimi.Y",
   "license": "ISC",
+  "scripts": {
+    "clear": "node bin/index.js clear",
+    "init": "node bin/index.js init",
+    "update": "node bin/index.js update"
+  },
   "dependencies": {
     "chalk": "^4.1.2",
-    "commander": "^10.0.1",
-    "inquirer": "^8.2.5",
+    "commander": "^11.0.0",
+    "inquirer": "^9.2.7",
     "ora": "^5.4.1"
   },
   "devDependencies": {
-    "@types/node": "^20.2.0",
-    "husky": "^8.0.3",
-    "lint-staged": "^13.2.2",
-    "typescript": "^5.0.4",
-    "vue-tsc": "^1.6.5"
-  },
-  "lint-staged": {
-    "*.{js,vue,ts}": "npm run lint:eslint",
-    "*.{vue,css,scss,sass}": "npm run lint:css"
+    "eslint": "^8.43.0",
+    "prettier": "^2.8.8"
   }
 }

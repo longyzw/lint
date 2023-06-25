@@ -1,30 +1,21 @@
-#!/usr/bin/env node
+const { Command } = require("commander")
+const { Clear, Init, Update } = require('./lint')
 
-const { Command } = require('commander');
-const Lint = require('./lint')
-
-const program = new Command()
+const program = new Command();
 
 program
-    .command('init')
-    .description('初始化lint配置')
-    .action(() => {
-        Lint.init()
-    })
+  .command("clear")
+  .description("清除lint配置")
+  .action(() => Clear());
 
 program
-    .command('clear')
-    .description('清除lint配置')
-    .action(() => {
-        Lint.clear()
-    })
+  .command("init")
+  .description("初始化lint配置")
+  .action(() => Init());
 
 program
-    .command('update')
-    .description('更新lint配置')
-    .action(() => {
-        Lint.update()
-    })
+  .command("update")
+  .description("更新lint配置")
+  .action(() => Update());
 
-
-program.parse()
+program.parse();
