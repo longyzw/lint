@@ -23,7 +23,8 @@
   "scripts": {
     "clear": "node bin/index.js clear",
     "init": "node bin/index.js init",
-    "update": "node bin/index.js update"
+    "update": "node bin/index.js update",
+    "lint": "eslint --ext .js bin"
   },
   "dependencies": {
     "chalk": "^4.1.2",
@@ -33,6 +34,11 @@
   },
   "devDependencies": {
     "eslint": "^8.43.0",
+    "eslint-config-standard": "^17.1.0",
+    "eslint-plugin-import": "^2.27.5",
+    "eslint-plugin-n": "^15.0.0 || ^16.0.0 ",
+    "eslint-plugin-prettier": "^4.2.1",
+    "eslint-plugin-promise": "^6.0.0",
     "prettier": "^2.8.8"
   }
 }

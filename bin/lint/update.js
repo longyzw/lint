@@ -1,3 +1,3 @@
 module.exports = function Update() {
-    console.log('更新配置');
+  console.log('更新配置')
 }
