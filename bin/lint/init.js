@@ -1,6 +1,6 @@
-const { getProjectName } = require('../utils')
+const { checkNodeEnv, success } = require('../utils')
 
 module.exports = function Init() {
-  console.log('安装配置')
-  console.log('=getProjectName=', getProjectName())
+  // 检测node环境
+  if (!checkNodeEnv()) return false
 }

@@ -1,7 +1,8 @@
-const { execSync } = require('child_process')
-const chalk = require('chalk')
 const ora = require('ora')
 const { getAbsolutePath } = require('./file')
+const { checkLintFile } = require('./check')
+const { removeFiles, writePackageJson } = require('./file')
+const { LINT_REGEXP } = require('./../config')
 
 /**
  * 脚本执行过程中的loading效果
@@ -15,20 +16,6 @@ const success = (text, spinner = '') => {
 }
 
 /**
- * 检查node环境 >= 16
- */
-const checkNodeEnv = () => {
-  const version = execSync('node -v')
-  const versionNum = ~~version.toString().split('.')[0].split('v')[1]
-  if (versionNum < 16) {
-    console.log(chalk.red(`node版本${version}过低，请升级至16以上`))
-    return false
-  }
-  success(`node环境验证成功, ${version}`)
-  return true
-}
-
-/**
  * 获取当前项目名称
  * @returns {string} 项目名称
  */
@@ -38,4 +25,42 @@ const getProjectName = () => {
   return name
 }
 
-module.exports = { loading, success, checkNodeEnv, getProjectName }
+/**
+ * 移除lint相关文件
+ * @returns {boolean} true
+ */
+const removeLintFile = () => {
+  const files = checkLintFile()
+  if (files.length) removeFiles(files)
+  return true
+}
+
+/**
+ * 移除lint相关插件及脚本
+ * @returns {boolean} true
+ */
+const removeLintPlugin = () => {
+  writePackageJson((packageJson) => {
+    // 移除相关插件
+    const checkList = ['dependencies', 'devDependencies', 'optionalDependencies']
+    checkList.forEach((item) => {
+      if (packageJson[item]) {
+        Object.keys(packageJson[item]).forEach((m) => {
+          if (LINT_REGEXP.test(m)) delete packageJson[item][m]
+        })
+      }
+    })
+    // 移除相关脚本
+    Object.entries(packageJson?.scripts || {}).forEach(([k, v]) => {
+      if (['lint', 'prettier', 'stylelint', 'style'].find((item) => k.indexOf(item) > -1)) {
+        delete packageJson.scripts[k]
+      }
+      if (['build', 'deploy'].find((item) => k.indexOf(item) > -1)) {
+        packageJson.scripts[k] = v.replace('vue-tsc --noEmit &&', '').replace('vue-tsc &&', '').trim()
+      }
+    })
+    return packageJson
+  })
+}
+
+module.exports = { loading, success, getProjectName, removeLintFile, removeLintPlugin }

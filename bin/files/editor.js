@@ -1,4 +1,4 @@
-# @see: http://editorconfig.org
+module.exports = `# @see: http://editorconfig.org
 
 root = true
 
@@ -13,3 +13,4 @@ max_line_length = 120 # 最大行长度
 [*.md] # 表示仅对 md 文件适用以下规则
 max_line_length = off # 关闭最大行长度限制
 trim_trailing_whitespace = false # 关闭末尾空格修剪
+`

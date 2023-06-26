@@ -42,10 +42,10 @@ const writeFile = (filePath, content, option = { flag: 'w+' }) => {
 
 /**
  * 写入package.json文件
- * @param {string} packagePath
  * @param {function} callback
  */
-const writePackageJson = (packagePath, callback) => {
+const writePackageJson = (callback) => {
+  const packagePath = `${process.cwd()}/package.json`
   const packageJson = require(packagePath)
   const newPackageJson = callback(packageJson)
   writeFile(packagePath, JSON.stringify(newPackageJson, null, 2))
