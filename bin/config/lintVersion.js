@@ -10,10 +10,8 @@ module.exports = {
       'eslint-config-prettier@8.8.0',
       'eslint-plugin-prettier@4.2.1'
     ],
-    vue2: {},
-    vue3: {
-      base: ['eslint-plugin-vue@9.15.1']
-    },
+    vue2: [],
+    vue3: ['eslint-plugin-vue@9.15.1'],
     typescript: ['typescript@5.1.3', '@typescript-eslint/eslint-plugin@5.60.0', '@typescript-eslint/parser@5.60.0']
   },
   stylelint: {
@@ -31,6 +29,10 @@ module.exports = {
     base: ['vite-plugin-eslint@1.8.1'],
     stylelint: ['vite-plugin-stylelint@4.3.0']
   },
-  webpack: {},
-  gitHook: ['@commitlint/cli@17.6.6', '@commitlint/config-conventional@17.6.6', 'husky@8.0.3', 'lint-staged@13.2.2']
+  webpack: {
+    base: []
+  },
+  gitHooks: {
+    base: ['@commitlint/cli@17.6.6', '@commitlint/config-conventional@17.6.6', 'husky@8.0.3', 'lint-staged@13.2.2']
+  }
 }

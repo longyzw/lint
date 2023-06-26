@@ -63,4 +63,40 @@ const removeLintPlugin = () => {
   })
 }
 
-module.exports = { loading, success, getProjectName, removeLintFile, removeLintPlugin }
+/**
+ * 重新排序lint选项处理顺序
+ * @param {array} []
+ * @returns {array} []
+ */
+const sortLintItem = (list = []) => {
+  const baseOrder = ['eslint', 'vue2', 'vue3', 'typescript', 'stylelint', 'sass', 'prettier', 'gitHooks']
+  const newList = []
+  baseOrder.forEach((item) => {
+    if (list.includes(item)) newList.push(item)
+  })
+  return newList
+}
+
+/**
+ * 移除lint相关文件
+ * @param {array} []
+ * @returns {boolean} true
+ */
+const setInitLintConfif = (list = []) => {
+  const newList = sortLintItem(list)
+  const lintVersion = require('./../config/lintVersion')
+  const allVersion = []
+  newList.forEach((item) => {
+    if (Reflect.has(lintVersion, item)) {
+      const current = lintVersion[item]
+      allVersion.push(...current.base)
+      Object.entries(current).forEach(([k, v]) => {
+        if (newList.includes(k)) allVersion.push(...v)
+      })
+    }
+  })
+  console.log('----', allVersion)
+  return true
+}
+
+module.exports = { loading, success, getProjectName, removeLintFile, removeLintPlugin, sortLintItem, setInitLintConfif }

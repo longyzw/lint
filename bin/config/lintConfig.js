@@ -1,4 +1,8 @@
 module.exports = {
+  prettier: {
+    extends: ['standard', 'plugin:prettier/recommended'],
+    plugins: ['prettier']
+  },
   vue2: {},
   vue3: {
     extends: ['plugin:vue/vue3-strongly-recommended'],
