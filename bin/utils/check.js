@@ -1,7 +1,7 @@
 const { execSync } = require('child_process')
 const fs = require('fs')
 const chalk = require('chalk')
-const { LINT_REGEXP, LINT_FILE_REGEXP } = require('./../config')
+const { LINT_REGEXP, LINT_FILE_REGEXP } = require('../config/const')
 
 /**
  * 检查node环境 >= 16

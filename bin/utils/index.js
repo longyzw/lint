@@ -2,7 +2,7 @@ const ora = require('ora')
 const { getAbsolutePath } = require('./file')
 const { checkLintFile } = require('./check')
 const { removeFiles, writePackageJson } = require('./file')
-const { LINT_REGEXP } = require('./../config')
+const { LINT_REGEXP } = require('../config/const')
 
 /**
  * 脚本执行过程中的loading效果

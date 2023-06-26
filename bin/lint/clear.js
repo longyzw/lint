@@ -3,7 +3,7 @@ const { success, removeLintFile, removeLintPlugin } = require('./../utils')
 const { checkNodeEnv } = require('./../utils/check')
 const { removeDirectory } = require('../utils/file')
 
-module.exports = async function Clear() {
+module.exports = function Clear() {
   // 检测node环境
   if (!checkNodeEnv()) return false
   // 移除lint配置文件
