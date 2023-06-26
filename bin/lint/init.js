@@ -9,9 +9,9 @@ module.exports = async function Init() {
   // 选择要搭配的lint规则
   const lintInfo = await lintChoice()
   console.log('--1=', lintInfo)
-  setInitLintConfif(lintInfo)
 
   const pkgValue = await pkgChoice()
+  setInitLintConfif(lintInfo, pkgValue)
   console.log('---==', pkgValue)
 
   const spinner = loading('正在生成配置及文件')

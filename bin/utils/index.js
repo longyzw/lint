@@ -1,4 +1,5 @@
 const ora = require('ora')
+const { execSync } = require('child_process')
 const { getAbsolutePath } = require('./file')
 const { checkLintFile } = require('./check')
 const { removeFiles, writePackageJson } = require('./file')
@@ -82,7 +83,7 @@ const sortLintItem = (list = []) => {
  * @param {array} []
  * @returns {boolean} true
  */
-const setInitLintConfif = (list = []) => {
+const setInitLintConfif = (list = [], pkgValue = []) => {
   const newList = sortLintItem(list)
   const lintVersion = require('./../config/lintVersion')
   const allVersion = []
@@ -95,6 +96,7 @@ const setInitLintConfif = (list = []) => {
       })
     }
   })
+  execSync(`${pkgValue} i -D ${allVersion.join(' ')}`)
   console.log('----', allVersion)
   return true
 }
