@@ -1,9 +1,9 @@
 {
-  "name": "@dp/lint",
+  "name": "@dp/create-lint",
   "version": "0.3.0",
   "description": "创建lint配置文件",
   "bin": {
-    "@dp/lint": "./bin/index.js"
+    "@dp/create-lint": "./bin/index.js"
   },
   "keywords": [
     "lint",
@@ -28,9 +28,9 @@
     "eslint-config-prettier": "^8.8.0",
     "eslint-config-standard": "^17.1.0",
     "eslint-plugin-import": "^2.27.5",
-    "eslint-plugin-n": "^15.0.0 || ^16.0.0 ",
+    "eslint-plugin-n": "^16.0.1",
     "eslint-plugin-prettier": "^4.2.1",
-    "eslint-plugin-promise": "^6.0.0",
+    "eslint-plugin-promise": "^6.1.1",
     "prettier": "^2.8.8"
   }
 }

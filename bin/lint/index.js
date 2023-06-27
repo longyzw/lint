@@ -1,9 +1,9 @@
 const Clear = require('./clear')
-const Init = require('./init')
+const Create = require('./create')
 const Update = require('./update')
 
 module.exports = {
   Clear,
-  Init,
+  Create,
   Update
 }

@@ -1,13 +1,10 @@
 const fs = require('fs')
 const path = require('path')
 const os = require('os')
-
-/**
- * 获取绝对路径
- * @param {string} targetPath 目标路径
- * @returns
- */
-const getAbsolutePath = (targetPath) => (targetPath.startsWith('/') ? targetPath : path.resolve(__dirname, targetPath))
+const ora = require('ora')
+const { execSync } = require('child_process')
+const { getProjectName, getAbsolutePath } = require('./utils')
+const { RULE_SET } = require('./../config/const')
 
 /**
  * 创建一个文件夹，当上级目录不存在时，自动创建
@@ -85,4 +82,67 @@ const removeDirectory = (folderPath) => {
   }
 }
 
-module.exports = { getAbsolutePath, writeFile, writePackageJson, removeFiles, removeDirectory }
+/**
+ * 筛选并安装插件
+ * @param {array}  list 需要处理的数组
+ * @param {string}  pkgValue 包管理器
+ * @returns
+ */
+const setLintVersion = (list = [], pkgValue = 'pnpm') => {
+  const lintVersion = require('./../config/lintVersion')
+  const allVersion = []
+  // 筛选对应插件
+  list.forEach((item) => {
+    if (Reflect.has(lintVersion, item)) {
+      const current = lintVersion[item]
+      allVersion.push(...current.base)
+      Object.entries(current).forEach(([k, v]) => {
+        if (list.includes(k)) allVersion.push(...v)
+      })
+    }
+  })
+  const spinner = ora('正在安装相关依赖，请稍等').start()
+  try {
+    execSync(`${pkgValue} i -D ${allVersion.join(' ')}`)
+  } catch (error) {
+    spinner.fail('依赖安装失败')
+    process.exit()
+  }
+  spinner.succeed('成功安装Lint相关依赖')
+}
+
+/**
+ * 筛选生成对应文件
+ * @param {array}  list 需要处理的数组
+ * @returns
+ */
+const setLintFile = (list = []) => {
+  // const lintConfig = require('./../config/lintConfig')
+  // const lintRules = require('./../config/lintRules')
+  // 生成editor配置文件
+  writeFile(path.join(process.cwd(), '.editorconfig'), require('./../files/editor'))
+  // 生成prettier配置文件
+  writeFile(
+    path.join(process.cwd(), '.prettierrc.js'),
+    `const config = require('${getProjectName()}/config/prettier')\n\nmodule.exports = config(${RULE_SET})\n`
+  )
+  // 筛选对应插件
+  // list.forEach((item) => {
+  //   if (Reflect.has(lintVersion, item)) {
+  //     const current = lintVersion[item]
+  //     allVersion.push(...current.base)
+  //     Object.entries(current).forEach(([k, v]) => {
+  //       if (list.includes(k)) allVersion.push(...v)
+  //     })
+  //   }
+  // })
+}
+
+module.exports = {
+  writeFile,
+  writePackageJson,
+  removeFiles,
+  removeDirectory,
+  setLintVersion,
+  setLintFile
+}

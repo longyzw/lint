@@ -1,7 +1,8 @@
 const ora = require('ora')
 const { execSync } = require('child_process')
 const { checkLintFile } = require('./check')
-const { getAbsolutePath, removeFiles, writePackageJson, writeFile } = require('./file')
+const { removeFiles, writePackageJson, writeFile, setLintVersion, setLintFile } = require('./file')
+const { getAbsolutePath } = require('./utils')
 const { LINT_REGEXP, GIT_HOOKS_FILES } = require('../config/const')
 
 /**
@@ -37,7 +38,7 @@ const removeLintFile = () => {
 
 /**
  * 移除lint相关插件及脚本
- * @returns {boolean} true
+ * @returns
  */
 const removeLintPlugin = () => {
   writePackageJson((packageJson) => {
@@ -65,8 +66,8 @@ const removeLintPlugin = () => {
 
 /**
  * 重新排序lint选项处理顺序
- * @param {array} []
- * @returns {array} []
+ * @param {array} list 需要处理的数组
+ * @returns {array} 处理完后的数组
  */
 const sortLintItem = (list = []) => {
   const baseOrder = ['eslint', 'vue2', 'vue3', 'typescript', 'stylelint', 'sass', 'prettier', 'gitHooks']
@@ -79,26 +80,16 @@ const sortLintItem = (list = []) => {
 
 /**
  * 生成lint相关配置
- * @param {array} []
- * @returns {boolean} true
+ * @param {array}  list 需要处理的数组
+ * @param {string}  pkgValue 包管理器
+ * @returns
  */
-const setInitLintConfig = (list = [], pkgValue = []) => {
+const setInitLintConfig = (list = [], pkgValue = 'pnpm') => {
   const newList = sortLintItem(list)
-  const lintVersion = require('./../config/lintVersion')
-  const allVersion = []
-  // 安装对应插件
-  newList.forEach((item) => {
-    if (Reflect.has(lintVersion, item)) {
-      const current = lintVersion[item]
-      allVersion.push(...current.base)
-      Object.entries(current).forEach(([k, v]) => {
-        if (newList.includes(k)) allVersion.push(...v)
-      })
-    }
-  })
-  const spinner = loading('正在安装相关依赖，请稍等')
-  execSync(`${pkgValue} i -D ${allVersion.join(' ')}`)
-  success('成功安装Lint相关依赖', spinner)
+  // 筛选安装对应插件
+  setLintVersion(newList, pkgValue)
+  // 筛选生成对应文件
+  setLintFile(newList)
   if (newList.includes('gitHooks')) {
     // 初始化git，防止git钩子函数关联报错
     execSync('git init')
@@ -107,7 +98,6 @@ const setInitLintConfig = (list = [], pkgValue = []) => {
   // 生成husky配置文件
   GIT_HOOKS_FILES.map((item) => writeFile(item.path, item.content))
   success('成功生成Husky配置文件')
-  return true
 }
 
 module.exports = { loading, success, getProjectName, removeLintFile, removeLintPlugin, sortLintItem, setInitLintConfig }

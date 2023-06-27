@@ -1,6 +1,6 @@
 const { checkNodeEnv } = require('../utils/check')
-const { success, setInitLintConfig } = require('./../utils')
-const { pkgChoice, lintChoice } = require('./../config/inquirer')
+const { success, setInitLintConfig } = require('../utils')
+const { pkgChoice, lintChoice } = require('../config/inquirer')
 
 module.exports = async function Init() {
   // 检测node环境

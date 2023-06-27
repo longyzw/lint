@@ -6,10 +6,11 @@ const pkgChoice = async () => {
     {
       type: 'list',
       name: 'pkgValue',
-      message: '请选择一个包管理器进行后续操作',
+      default: 'pnpm',
+      message: '选择包管理器',
       choices: [
         { value: 'npm', name: 'npm' },
-        { value: 'pnpm', name: 'pnpm', default: true }
+        { value: 'pnpm', name: 'pnpm' }
       ]
     }
   ])
@@ -24,7 +25,7 @@ const lintChoice = async () => {
     {
       type: 'list',
       name: 'frame',
-      message: '请选择项目使用的框架',
+      message: '选择框架',
       choices: [
         { value: 'vue3', name: 'Vue3' },
         { value: 'vue2', name: 'Vue2' },
@@ -38,7 +39,7 @@ const lintChoice = async () => {
     {
       type: 'list',
       name: 'scaffolding',
-      message: '请选择项目使用的脚手架',
+      message: '选择脚手架',
       choices: [
         { value: 'vite', name: 'Vite' },
         { value: 'webpack', name: 'webpack' },
@@ -61,13 +62,12 @@ const lintChoice = async () => {
     {
       type: 'confirm',
       name: 'stylelint',
-      message: '是否使用stylelint ?',
-      default: true
+      message: '是否使用stylelint ?'
     },
     {
       type: 'checkbox',
       name: 'css',
-      message: '选择使用的预处理器',
+      message: '选择预处理器',
       choices: ['sass'],
       when: function (answers) {
         // 当watch为true的时候才会提问当前问题
@@ -82,8 +82,7 @@ const lintChoice = async () => {
     {
       type: 'confirm',
       name: 'gitHooks',
-      message: '是否启用git hooks: pre-commit + commit-msg ?',
-      default: true
+      message: '是否启用git hooks: pre-commit + commit-msg ?'
     }
   ])
   if (gitHooks) lintList.push('gitHooks')

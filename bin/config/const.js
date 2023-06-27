@@ -26,4 +26,13 @@ const GIT_HOOKS_FILES = [
   }
 ]
 
-module.exports = { LINT_REGEXP, LINT_FILE_REGEXP, GIT_HOOKS_FILES }
+const RULE_SET = JSON.stringify(
+  {
+    rules: {},
+    cover: {}
+  },
+  null,
+  2
+)
+
+module.exports = { LINT_REGEXP, LINT_FILE_REGEXP, GIT_HOOKS_FILES, RULE_SET }
