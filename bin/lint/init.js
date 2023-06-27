@@ -1,5 +1,5 @@
 const { checkNodeEnv } = require('../utils/check')
-const { loading, success, setInitLintConfif } = require('./../utils')
+const { success, setInitLintConfig } = require('./../utils')
 const { pkgChoice, lintChoice } = require('./../config/inquirer')
 
 module.exports = async function Init() {
@@ -8,18 +8,7 @@ module.exports = async function Init() {
 
   // 选择要搭配的lint规则
   const lintInfo = await lintChoice()
-  console.log('--1=', lintInfo)
-
   const pkgValue = await pkgChoice()
-  setInitLintConfif(lintInfo, pkgValue)
-  console.log('---==', pkgValue)
-
-  const spinner = loading('正在生成配置及文件')
-
-  // await new Promise((resolve) => {
-  //   setTimeout(() => {
-  //     resolve()
-  //   }, 1000)
-  // })
-  success('成功生成Lint配置及文件', spinner)
+  setInitLintConfig(lintInfo, pkgValue)
+  success('成功生成Lint配置及文件')
 }

@@ -1,22 +1,13 @@
 {
   "name": "@dp/lint",
   "version": "0.3.0",
-  "description": "统一lint风格",
+  "description": "创建lint配置文件",
   "bin": {
     "@dp/lint": "./bin/index.js"
   },
   "keywords": [
     "lint",
-    "eslint",
-    "prettier",
-    "stylelint",
-    "typescript",
-    "husky",
-    "commitlint",
-    "vue3",
-    "vue2",
-    "vite",
-    "webpack"
+    "create-lint"
   ],
   "author": "Kimi.Y",
   "license": "ISC",

@@ -1,9 +1,8 @@
 const ora = require('ora')
 const { execSync } = require('child_process')
-const { getAbsolutePath } = require('./file')
 const { checkLintFile } = require('./check')
-const { removeFiles, writePackageJson } = require('./file')
-const { LINT_REGEXP } = require('../config/const')
+const { getAbsolutePath, removeFiles, writePackageJson, writeFile } = require('./file')
+const { LINT_REGEXP, GIT_HOOKS_FILES } = require('../config/const')
 
 /**
  * 脚本执行过程中的loading效果
@@ -79,14 +78,15 @@ const sortLintItem = (list = []) => {
 }
 
 /**
- * 移除lint相关文件
+ * 生成lint相关配置
  * @param {array} []
  * @returns {boolean} true
  */
-const setInitLintConfif = (list = [], pkgValue = []) => {
+const setInitLintConfig = (list = [], pkgValue = []) => {
   const newList = sortLintItem(list)
   const lintVersion = require('./../config/lintVersion')
   const allVersion = []
+  // 安装对应插件
   newList.forEach((item) => {
     if (Reflect.has(lintVersion, item)) {
       const current = lintVersion[item]
@@ -96,9 +96,18 @@ const setInitLintConfif = (list = [], pkgValue = []) => {
       })
     }
   })
+  const spinner = loading('正在安装相关依赖，请稍等')
   execSync(`${pkgValue} i -D ${allVersion.join(' ')}`)
-  console.log('----', allVersion)
+  success('成功安装Lint相关依赖', spinner)
+  if (newList.includes('gitHooks')) {
+    // 初始化git，防止git钩子函数关联报错
+    execSync('git init')
+    execSync('npx husky install')
+  }
+  // 生成husky配置文件
+  GIT_HOOKS_FILES.map((item) => writeFile(item.path, item.content))
+  success('成功生成Husky配置文件')
   return true
 }
 
-module.exports = { loading, success, getProjectName, removeLintFile, removeLintPlugin, sortLintItem, setInitLintConfif }
+module.exports = { loading, success, getProjectName, removeLintFile, removeLintPlugin, sortLintItem, setInitLintConfig }

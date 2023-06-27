@@ -9,7 +9,7 @@ const pkgChoice = async () => {
       message: '请选择一个包管理器进行后续操作',
       choices: [
         { value: 'npm', name: 'npm' },
-        { value: 'pnpm', name: 'pnpm' }
+        { value: 'pnpm', name: 'pnpm', default: true }
       ]
     }
   ])
@@ -28,7 +28,7 @@ const lintChoice = async () => {
       choices: [
         { value: 'vue3', name: 'Vue3' },
         { value: 'vue2', name: 'Vue2' },
-        { value: '', name: '无' }
+        { value: '', name: 'None' }
       ]
     }
   ])
@@ -36,13 +36,13 @@ const lintChoice = async () => {
   // 选择脚手架
   const { scaffolding } = await inquirer.prompt([
     {
-      type: 'rawlist',
+      type: 'list',
       name: 'scaffolding',
       message: '请选择项目使用的脚手架',
       choices: [
         { value: 'vite', name: 'Vite' },
         { value: 'webpack', name: 'webpack' },
-        { value: '', name: '无' }
+        { value: '', name: 'None' }
       ]
     }
   ])
@@ -61,7 +61,8 @@ const lintChoice = async () => {
     {
       type: 'confirm',
       name: 'stylelint',
-      message: '是否使用stylelint ?'
+      message: '是否使用stylelint ?',
+      default: true
     },
     {
       type: 'checkbox',
@@ -81,7 +82,8 @@ const lintChoice = async () => {
     {
       type: 'confirm',
       name: 'gitHooks',
-      message: '是否启用git hooks: pre-commit + commit-msg ?'
+      message: '是否启用git hooks: pre-commit + commit-msg ?',
+      default: true
     }
   ])
   if (gitHooks) lintList.push('gitHooks')

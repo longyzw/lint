@@ -1,3 +1,5 @@
+const path = require('path')
+
 /**
  * lint相关配置所有依赖和文件
  */
@@ -10,4 +12,18 @@ const LINT_FILE_REGEXP = {
   editor: /\.editorconfig/
 }
 
-module.exports = { LINT_REGEXP, LINT_FILE_REGEXP }
+/**
+ * Husky相关文件配置
+ */
+const GIT_HOOKS_FILES = [
+  {
+    path: path.join(process.cwd(), `.husky/pre-commit`),
+    content: `#!/usr/bin/env sh\n. "$(dirname -- "$0")/_/husky.sh"\n\nnpx lint-staged`
+  },
+  {
+    path: path.join(process.cwd(), `.husky/commit-msg`),
+    content: `#!/usr/bin/env sh\n. "$(dirname -- "$0")/_/husky.sh"\n\nnpx --no-install commitlint --edit "$1"`
+  }
+]
+
+module.exports = { LINT_REGEXP, LINT_FILE_REGEXP, GIT_HOOKS_FILES }
