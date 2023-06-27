@@ -29,4 +29,19 @@ const getProjectName = () => {
   return name
 }
 
-module.exports = { loading, success, getProjectName, getAbsolutePath }
+/**
+ * 处理optionsContent
+ * @param {value} target 目标选项匹配
+ * @returns {object} lint规则配置结构
+ */
+const getOptoinsContent = (value = '') => {
+  const result = {
+    target: value,
+    rules: {},
+    cover: {}
+  }
+  if (!value) delete result.target
+  return JSON.stringify(result, null, 2)
+}
+
+module.exports = { loading, success, getProjectName, getAbsolutePath, getOptoinsContent }

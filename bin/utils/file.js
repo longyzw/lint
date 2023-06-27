@@ -3,8 +3,9 @@ const path = require('path')
 const os = require('os')
 const ora = require('ora')
 const { execSync } = require('child_process')
-const { getProjectName, getAbsolutePath } = require('./utils')
-const { RULE_SET } = require('./../config/const')
+const { getProjectName, getAbsolutePath, getOptoinsContent } = require('./utils')
+const { _eslint, _stylelint, _gitHooks } = require('./../config/lintConfig')
+const { BASE_LINT, BASE_PRETTIER, BASE_STYLE, BASE_EDITOR, BASE_COMMIT } = require('./../config/const')
 
 /**
  * 创建一个文件夹，当上级目录不存在时，自动创建
@@ -117,25 +118,141 @@ const setLintVersion = (list = [], pkgValue = 'pnpm') => {
  * @returns
  */
 const setLintFile = (list = []) => {
-  // const lintConfig = require('./../config/lintConfig')
-  // const lintRules = require('./../config/lintRules')
   // 生成editor配置文件
-  writeFile(path.join(process.cwd(), '.editorconfig'), require('./../files/editor'))
-  // 生成prettier配置文件
-  writeFile(
-    path.join(process.cwd(), '.prettierrc.js'),
-    `const config = require('${getProjectName()}/config/prettier')\n\nmodule.exports = config(${RULE_SET})\n`
-  )
-  // 筛选对应插件
-  // list.forEach((item) => {
-  //   if (Reflect.has(lintVersion, item)) {
-  //     const current = lintVersion[item]
-  //     allVersion.push(...current.base)
-  //     Object.entries(current).forEach(([k, v]) => {
-  //       if (list.includes(k)) allVersion.push(...v)
-  //     })
-  //   }
-  // })
+  writeFile(path.join(process.cwd(), '.editorconfig'), BASE_EDITOR)
+
+  function getValue(data) {
+    list.filter((item) => Object.keys(data).includes(item))
+  }
+
+  // 生成对应配置文件
+  const fileInfoList = [
+    { name: '.prettierrc.js', methods: 'prettierConfig', value: '' },
+    { name: '.eslintrc.js', methods: 'eslintConfig', value: getValue(_eslint) },
+    { name: '.stylelintrc.js', methods: 'stylelintConfig', value: getValue(_stylelint) },
+    { name: '.commitlintrc.js', methods: 'commitlintConfig', value: getValue(_gitHooks) }
+  ]
+  fileInfoList.forEach(({ name, methods, value }) => {
+    writeFile(
+      path.join(process.cwd(), name),
+      `const { ${methods} } = require('${getProjectName()}/utils/file')\n\nmodule.exports = ${methods}(${getOptoinsContent(
+        value
+      )})\n`
+    )
+  })
+}
+
+/**
+ * 生成prettier配置文件
+ * @param {object}  options 需要处理的配置
+ * @returns object
+ */
+const prettierConfig = (options = {}) => {
+  const { rules = {}, cover = {} } = options
+  return {
+    ...rules,
+    ...BASE_PRETTIER,
+    ...cover
+  }
+}
+
+/**
+ * 生成eslint配置文件
+ * @param {object}  options 需要处理的配置
+ * @returns object
+ */
+const eslintConfig = (options = {}) => {
+  const { target = [], rules = {}, cover = {} } = options
+  const baseConf = getConfig(BASE_LINT, target, _eslint)
+  baseConf.rules = {
+    ...rules,
+    ...baseConf.rules,
+    ...cover
+  }
+  return baseConf
+}
+
+/**
+ * 生成stylelint配置文件
+ * @param {object}  options 需要处理的配置
+ * @returns object
+ */
+const stylelintConfig = (options = {}) => {
+  const { target = [], rules = {}, cover = {} } = options
+  const baseConf = getConfig(BASE_STYLE, target, _stylelint)
+  baseConf.rules = {
+    ...rules,
+    ...baseConf.rules,
+    ...cover
+  }
+  return baseConf
+}
+
+/**
+ * 生成commitlint配置文件
+ * @param {object}  options 需要处理的配置
+ * @returns object
+ */
+const commitlintConfig = (options = {}) => {
+  const { rules = {}, cover = {} } = options
+  const baseConf = JSON.parse(JSON.stringify(BASE_COMMIT))
+  baseConf.rules = {
+    ...rules,
+    ...baseConf.rules,
+    ...cover
+  }
+  return baseConf
+}
+
+// 比较配置返回完整的配置结果
+const getConfig = (base = {}, target = [], compare = {}) => {
+  const baseConf = JSON.parse(JSON.stringify(base))
+  target.forEach((item) => {
+    const oldValue = baseConf[item]
+    const newValue = compare[item]
+    if (newValue) {
+      if (!oldValue) {
+        baseConf[item] = newValue
+      } else {
+        if (Array.isArray(oldValue)) {
+          oldValue.push(...newValue)
+        } else {
+          baseConf[item] = {
+            ...oldValue,
+            ...newValue
+          }
+        }
+      }
+    }
+  })
+  return baseConf
+}
+
+/**
+ * 筛选生成对应package指令
+ * @param {array}  list 需要处理的数组
+ * @returns
+ */
+const setLintCommand = (list = []) => {
+  const { eslint, stylelint } = require('./../config/lintPackage')
+  writePackageJson((packageJson) => {
+    const eslintPattern = []
+    const stylelintPattern = []
+    list.forEach((item) => {
+      eslintPattern.push(...(eslint.pattern[item] || []))
+      stylelintPattern.push(...(stylelint.pattern[item] || []))
+    })
+    // 生成执行命令
+    // 生成'lint-staged'配置
+    const lintStaged = {
+      [`*.{${eslintPattern.join(',')}}`]: 'npm run lint:eslint'
+    }
+    if (list.includes('stylelint')) {
+      lintStaged[`*.{${stylelintPattern.join(',')}}`] = 'npm run lint:stylelint'
+    }
+    packageJson['lint-staged'] = lintStaged
+    return packageJson
+  })
 }
 
 module.exports = {
@@ -144,5 +261,10 @@ module.exports = {
   removeFiles,
   removeDirectory,
   setLintVersion,
-  setLintFile
+  setLintFile,
+  prettierConfig,
+  eslintConfig,
+  stylelintConfig,
+  commitlintConfig,
+  setLintCommand
 }

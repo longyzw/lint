@@ -1,7 +1,7 @@
 const ora = require('ora')
 const { execSync } = require('child_process')
 const { checkLintFile } = require('./check')
-const { removeFiles, writePackageJson, writeFile, setLintVersion, setLintFile } = require('./file')
+const { removeFiles, writePackageJson, writeFile, setLintVersion, setLintFile, setLintCommand } = require('./file')
 const { getAbsolutePath } = require('./utils')
 const { LINT_REGEXP, GIT_HOOKS_FILES } = require('../config/const')
 
@@ -70,7 +70,18 @@ const removeLintPlugin = () => {
  * @returns {array} 处理完后的数组
  */
 const sortLintItem = (list = []) => {
-  const baseOrder = ['eslint', 'vue2', 'vue3', 'typescript', 'stylelint', 'sass', 'prettier', 'gitHooks']
+  const baseOrder = [
+    'eslint',
+    'vue2',
+    'vue3',
+    'typescript',
+    'stylelint',
+    'sass',
+    'prettier',
+    'gitHooks',
+    'vite',
+    'webpack'
+  ]
   const newList = []
   baseOrder.forEach((item) => {
     if (list.includes(item)) newList.push(item)
@@ -97,7 +108,8 @@ const setInitLintConfig = (list = [], pkgValue = 'pnpm') => {
   }
   // 生成husky配置文件
   GIT_HOOKS_FILES.map((item) => writeFile(item.path, item.content))
-  success('成功生成Husky配置文件')
+  // 生成package.json配置
+  setLintCommand(newList)
 }
 
 module.exports = { loading, success, getProjectName, removeLintFile, removeLintPlugin, sortLintItem, setInitLintConfig }
