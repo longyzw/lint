@@ -4,8 +4,8 @@ const os = require('os')
 const ora = require('ora')
 const { execSync } = require('child_process')
 const { getProjectName, getAbsolutePath, getOptoinsContent } = require('./utils')
-const { _eslint, _stylelint, _gitHooks } = require('./../config/lintConfig')
-const { BASE_LINT, BASE_PRETTIER, BASE_STYLE, BASE_EDITOR, BASE_COMMIT } = require('./../config/const')
+const { _eslint, _stylelint, _gitHooks } = require('../config/lintConfig')
+const { BASE_LINT, BASE_PRETTIER, BASE_STYLE, BASE_EDITOR, BASE_COMMIT } = require('../config/const')
 
 /**
  * 创建一个文件夹，当上级目录不存在时，自动创建
@@ -90,7 +90,7 @@ const removeDirectory = (folderPath) => {
  * @returns
  */
 const setLintVersion = (list = [], pkgValue = 'pnpm') => {
-  const lintVersion = require('./../config/lintVersion')
+  const lintVersion = require('../config/lintVersion')
   const allVersion = []
   // 筛选对应插件
   list.forEach((item) => {
@@ -135,7 +135,7 @@ const setLintFile = (list = []) => {
   fileInfoList.forEach(({ name, methods, value }) => {
     writeFile(
       path.join(process.cwd(), name),
-      `const { ${methods} } = require('${getProjectName()}/utils/file')\n\nmodule.exports = ${methods}(${getOptoinsContent(
+      `const { ${methods} } = require('${getProjectName()}/bin/utils/file')\n\nmodule.exports = ${methods}(${getOptoinsContent(
         value
       )})\n`
     )
@@ -234,7 +234,7 @@ const getConfig = (base = {}, target = [], compare = {}) => {
  * @returns
  */
 const setLintCommand = (list = []) => {
-  const { eslint, stylelint } = require('./../config/lintPackage')
+  const { eslint, stylelint } = require('../config/lintPackage')
   writePackageJson((packageJson) => {
     const eslintPattern = []
     const stylelintPattern = []
@@ -242,7 +242,13 @@ const setLintCommand = (list = []) => {
       eslintPattern.push(...(eslint.pattern[item] || []))
       stylelintPattern.push(...(stylelint.pattern[item] || []))
     })
+    const { scripts = {} } = packageJson
     // 生成执行命令
+    scripts['lint:eslint'] = 'eslint . --fix'
+    if (list.includes('stylelint')) {
+      scripts['lint:stylelint'] = `stylelint **/*.{${stylelintPattern.join(',')}} --fix`
+    }
+    packageJson.scripts = scripts
     // 生成'lint-staged'配置
     const lintStaged = {
       [`*.{${eslintPattern.join(',')}}`]: 'npm run lint:eslint'
@@ -251,6 +257,7 @@ const setLintCommand = (list = []) => {
       lintStaged[`*.{${stylelintPattern.join(',')}}`] = 'npm run lint:stylelint'
     }
     packageJson['lint-staged'] = lintStaged
+
     return packageJson
   })
 }

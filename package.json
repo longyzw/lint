@@ -15,7 +15,7 @@
     "clear": "node bin/index.js clear",
     "init": "node bin/index.js init",
     "update": "node bin/index.js update",
-    "lint": "eslint --ext .js bin"
+    "lint": "eslint . --fix"
   },
   "dependencies": {
     "chalk": "^4.1.2",

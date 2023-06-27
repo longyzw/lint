@@ -4,10 +4,24 @@ module.exports = {
       extends: ['plugin:prettier/recommended'],
       plugins: ['prettier']
     },
-    vue2: {},
+    vue2: {
+      overrides: [
+        {
+          files: ['*.vue'],
+          extends: ['plugin:vue/recommended'],
+          parser: 'vue-eslint-parser'
+        }
+      ],
+      plugins: ['vue']
+    },
     vue3: {
-      extends: ['plugin:vue/vue3-strongly-recommended'],
-      parser: 'vue-eslint-parser',
+      overrides: [
+        {
+          files: ['*.vue'],
+          extends: ['plugin:vue/vue3-strongly-recommended'],
+          parser: 'vue-eslint-parser'
+        }
+      ],
       plugins: ['vue'],
       rules: {
         'vue/multi-word-component-names': 0, // 组件命名规范关闭校验

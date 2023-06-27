@@ -112,4 +112,12 @@ const setInitLintConfig = (list = [], pkgValue = 'pnpm') => {
   setLintCommand(newList)
 }
 
-module.exports = { loading, success, getProjectName, removeLintFile, removeLintPlugin, sortLintItem, setInitLintConfig }
+module.exports = {
+  loading,
+  success,
+  getProjectName,
+  removeLintFile,
+  removeLintPlugin,
+  sortLintItem,
+  setInitLintConfig
+}
