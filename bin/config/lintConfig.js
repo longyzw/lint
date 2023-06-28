@@ -78,29 +78,21 @@ module.exports = {
       extends: ['stylelint-config-recommended-vue']
     },
     vue3: {
-      extends: ['stylelint-config-recommended-vue']
+      extends: ['stylelint-config-recommended-vue'],
+      overrides: [
+        {
+          files: ['*.vue', '*.html'],
+          customSyntax: 'postcss-html'
+        }
+      ]
     },
     vite: {},
     webpack: {},
     sass: {
-      // extends: ['stylelint-config-standard-scss']
-      overrides: [
-        {
-          files: ['*.scss', '**/*.scss'],
-          customSyntax: 'postcss-scss',
-          extends: ['stylelint-config-standard-scss']
-        }
-      ]
+      extends: ['stylelint-config-standard-scss']
     },
     less: {
       extends: ['stylelint-config-standard-less']
-      // overrides: [
-      //   {
-      //     files: ['*.less', '**/*.less'],
-      //     customSyntax: 'postcss-less',
-      //     extends: ['stylelint-config-standard-less']
-      //   }
-      // ]
     }
   },
   _gitHooks: {}
