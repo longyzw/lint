@@ -233,7 +233,7 @@ const setLintCommand = (list = []) => {
     })
     const { scripts = {} } = packageJson
     // 生成执行命令
-    scripts['lint:show'] = 'npm init @dp/lint show'
+    scripts['lint:show'] = `npx ${getProjectName()} show`
     scripts['lint:eslint'] = `eslint src --fix --ext ${eslintPattern.map((item) => '.' + item).join(',')}`
     scripts['lint:format'] = `prettier --write "**/*.{${eslintPattern.join(',')}}"`
     if (list.includes('stylelint')) {

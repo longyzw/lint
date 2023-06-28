@@ -83,14 +83,14 @@ module.exports = {
     vite: {},
     webpack: {},
     sass: {
-      extends: ['stylelint-config-standard-scss']
-      // overrides: [
-      //   {
-      //     files: ['*.scss', '**/*.scss'],
-      //     customSyntax: 'postcss-scss',
-      //     extends: ['stylelint-config-standard-scss']
-      //   }
-      // ]
+      // extends: ['stylelint-config-standard-scss']
+      overrides: [
+        {
+          files: ['*.scss', '**/*.scss'],
+          customSyntax: 'postcss-scss',
+          extends: ['stylelint-config-standard-scss']
+        }
+      ]
     },
     less: {
       extends: ['stylelint-config-standard-less']
