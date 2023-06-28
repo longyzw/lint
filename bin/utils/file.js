@@ -102,11 +102,15 @@ const setLintVersion = (list = [], pkgValue = 'pnpm') => {
       })
     }
   })
+
+  console.log('安装以下依赖：', allVersion.join(' '))
+
   const spinner = ora('正在安装相关依赖，请稍等').start()
+
   try {
     execSync(`${pkgValue} i -D ${allVersion.join(' ')}`)
   } catch (error) {
-    spinner.fail('依赖安装失败')
+    spinner.fail('依赖安装失败:', error)
     process.exit()
   }
   spinner.succeed('成功安装Lint相关依赖')

@@ -1,15 +1,15 @@
 {
-  "name": "@dp/create-lint",
-  "version": "0.3.0",
+  "name": "create-ly-lint",
+  "version": "0.0.2",
   "description": "创建lint配置文件",
   "bin": {
-    "@dp/create-lint": "./bin/index.js"
+    "create-ly-lint": "./bin/index.js"
   },
   "keywords": [
     "lint",
     "create-lint"
   ],
-  "author": "Kimi.Y",
+  "author": "longyzw",
   "license": "ISC",
   "scripts": {
     "clear": "node bin/index.js clear",

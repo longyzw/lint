@@ -5,23 +5,26 @@ module.exports = {
       plugins: ['prettier']
     },
     vue2: {
-      overrides: [
-        {
-          files: ['*.vue'],
-          extends: ['plugin:vue/recommended'],
-          parser: 'vue-eslint-parser'
-        }
-      ],
+      extends: ['plugin:vue/recommended'],
+      // overrides: [
+      //   {
+      //     files: ['*.vue'],
+      //     extends: ['plugin:vue/recommended'],
+      //     parser: 'vue-eslint-parser'
+      //   }
+      // ],
       plugins: ['vue']
     },
     vue3: {
-      overrides: [
-        {
-          files: ['*.vue'],
-          extends: ['plugin:vue/vue3-recommended'],
-          parser: 'vue-eslint-parser'
-        }
-      ],
+      extends: ['plugin:vue/vue3-recommended'],
+      parser: 'vue-eslint-parser',
+      // overrides: [
+      //   {
+      //     files: ['*.vue'],
+      //     extends: ['plugin:vue/vue3-recommended'],
+      //     parser: 'vue-eslint-parser'
+      //   }
+      // ],
       plugins: ['vue'],
       rules: {
         'vue/multi-word-component-names': 0, // 组件命名规范关闭校验
@@ -37,15 +40,16 @@ module.exports = {
       }
     },
     typescript: {
-      parser: '@typescript-eslint/parser',
-      overrides: [
-        {
-          files: ['*.ts'],
-          extends: ['plugin:@typescript-eslint/recommended'],
-          parser: '@typescript-eslint/parser'
-        }
-      ],
+      // parser: '@typescript-eslint/parser',
+      // overrides: [
+      //   {
+      //     files: ['*.ts'],
+      //     extends: ['plugin:@typescript-eslint/recommended'],
+      //     parser: '@typescript-eslint/parser'
+      //   }
+      // ],
       parserOptions: {
+        parser: '@typescript-eslint/parser',
         ecmaFeatures: {
           tsx: true
         }
@@ -79,13 +83,24 @@ module.exports = {
     vite: {},
     webpack: {},
     sass: {
-      overrides: [
-        {
-          files: ['*.scss', '**/*.scss'],
-          customSyntax: 'postcss-scss',
-          extends: ['stylelint-config-recommended-scss']
-        }
-      ]
+      extends: ['stylelint-config-standard-scss']
+      // overrides: [
+      //   {
+      //     files: ['*.scss', '**/*.scss'],
+      //     customSyntax: 'postcss-scss',
+      //     extends: ['stylelint-config-standard-scss']
+      //   }
+      // ]
+    },
+    less: {
+      extends: ['stylelint-config-standard-less']
+      // overrides: [
+      //   {
+      //     files: ['*.less', '**/*.less'],
+      //     customSyntax: 'postcss-less',
+      //     extends: ['stylelint-config-standard-less']
+      //   }
+      // ]
     }
   },
   _gitHooks: {}

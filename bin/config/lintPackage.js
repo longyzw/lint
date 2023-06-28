@@ -11,6 +11,7 @@ module.exports = {
     pattern: {
       stylelint: ['css'],
       sass: ['sass', 'scss'],
+      less: ['less'],
       vue2: ['vue'],
       vue3: ['vue']
     }

@@ -10,7 +10,7 @@ module.exports = {
       'eslint-config-prettier@8.8.0',
       'eslint-plugin-prettier@4.2.1'
     ],
-    vue2: [],
+    vue2: ['eslint-plugin-vue@9.15.1'],
     vue3: ['eslint-plugin-vue@9.15.1'],
     typescript: ['typescript@5.0.2', '@typescript-eslint/eslint-plugin@5.60.0', '@typescript-eslint/parser@5.60.0']
   },
@@ -21,12 +21,12 @@ module.exports = {
       'stylelint-order@6.0.3',
       'stylelint-prettier@3.0.0',
       'postcss@8.4.24',
-      'postcss-html@1.5.0',
-      'postcss-scss@4.0.6'
+      'postcss-html@1.5.0'
     ],
     vue2: ['stylelint-config-recommended-vue@1.4.0'],
     vue3: ['stylelint-config-recommended-vue@1.4.0'],
-    sass: ['stylelint-config-standard-scss@9.0.0']
+    sass: ['stylelint-config-standard-scss@9.0.0', 'postcss-scss@4.0.6'],
+    less: ['stylelint-config-standard-less@1.0.0', 'postcss-less@6.0.0']
   },
   vite: {
     base: ['vite-plugin-eslint@1.8.1'],

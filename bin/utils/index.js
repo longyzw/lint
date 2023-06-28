@@ -77,6 +77,7 @@ const sortLintItem = (list = []) => {
     'typescript',
     'stylelint',
     'sass',
+    'less',
     'prettier',
     'gitHooks',
     'vite',

@@ -217,7 +217,7 @@ const BASE_LINT = {
     'import/no-extraneous-dependencies': 0,
     'prettier/prettier': 2
   },
-  ignorePatterns: []
+  ignorePatterns: ['node_modules', 'dist']
 }
 
 // 基础prettier配置
@@ -261,7 +261,8 @@ const BASE_STYLE = {
     'no-duplicate-selectors': null, // 删除重复申明来规避
     'selector-pseudo-element-no-unknown': null, // 修改未知伪元素命名来规避
     'selector-id-pattern': null // 修改id命名来规避
-  }
+  },
+  ignorePatterns: ['node_modules', 'dist']
 }
 
 // 基础editor配置

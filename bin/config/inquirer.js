@@ -68,7 +68,7 @@ const lintChoice = async () => {
       type: 'checkbox',
       name: 'css',
       message: '选择预处理器',
-      choices: ['sass'],
+      choices: ['sass', 'less'],
       when: function (answers) {
         // 当watch为true的时候才会提问当前问题
         return answers.stylelint
