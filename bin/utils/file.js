@@ -3,7 +3,7 @@ const path = require('path')
 const os = require('os')
 const ora = require('ora')
 const { execSync } = require('child_process')
-const { getProjectName, getAbsolutePath, getOptoinsContent } = require('./utils')
+const { getProjectName, getAbsolutePath, getOptoinsContent, mergeObjects } = require('./utils')
 const { _eslint, _stylelint, _gitHooks } = require('../config/lintConfig')
 const { BASE_LINT, BASE_PRETTIER, BASE_STYLE, BASE_EDITOR, BASE_COMMIT } = require('../config/const')
 
@@ -122,7 +122,7 @@ const setLintFile = (list = []) => {
   writeFile(path.join(process.cwd(), '.editorconfig'), BASE_EDITOR)
 
   function getValue(data) {
-    list.filter((item) => Object.keys(data).includes(item))
+    return list.filter((item) => Object.keys(data).includes(item))
   }
 
   // 生成对应配置文件
@@ -206,24 +206,9 @@ const commitlintConfig = (options = {}) => {
 
 // 比较配置返回完整的配置结果
 const getConfig = (base = {}, target = [], compare = {}) => {
-  const baseConf = JSON.parse(JSON.stringify(base))
+  let baseConf = JSON.parse(JSON.stringify(base))
   target.forEach((item) => {
-    const oldValue = baseConf[item]
-    const newValue = compare[item]
-    if (newValue) {
-      if (!oldValue) {
-        baseConf[item] = newValue
-      } else {
-        if (Array.isArray(oldValue)) {
-          oldValue.push(...newValue)
-        } else {
-          baseConf[item] = {
-            ...oldValue,
-            ...newValue
-          }
-        }
-      }
-    }
+    baseConf = mergeObjects(baseConf || {}, compare[item] || {})
   })
   return baseConf
 }
@@ -244,9 +229,11 @@ const setLintCommand = (list = []) => {
     })
     const { scripts = {} } = packageJson
     // 生成执行命令
-    scripts['lint:eslint'] = 'eslint . --fix'
+    scripts['lint:show'] = 'npm init @dp/lint show'
+    scripts['lint:eslint'] = `eslint src --fix --ext ${eslintPattern.map((item) => '.' + item).join(',')}`
+    scripts['lint:format'] = `prettier --write "**/*.{${eslintPattern.join(',')}}"`
     if (list.includes('stylelint')) {
-      scripts['lint:stylelint'] = `stylelint **/*.{${stylelintPattern.join(',')}} --fix`
+      scripts['lint:stylelint'] = `stylelint --fix "**/*.{${stylelintPattern.join(',')}}"`
     }
     packageJson.scripts = scripts
     // 生成'lint-staged'配置

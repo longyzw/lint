@@ -18,7 +18,7 @@ module.exports = {
       overrides: [
         {
           files: ['*.vue'],
-          extends: ['plugin:vue/vue3-strongly-recommended'],
+          extends: ['plugin:vue/vue3-recommended'],
           parser: 'vue-eslint-parser'
         }
       ],
@@ -37,14 +37,17 @@ module.exports = {
       }
     },
     typescript: {
-      extends: ['plugin:@typescript-eslint/recommended'],
+      parser: '@typescript-eslint/parser',
+      overrides: [
+        {
+          files: ['*.ts'],
+          extends: ['plugin:@typescript-eslint/recommended'],
+          parser: '@typescript-eslint/parser'
+        }
+      ],
       parserOptions: {
-        parser: '@typescript-eslint/parser',
-        ecmaVersion: 'latest',
-        sourceType: 'module',
         ecmaFeatures: {
-          tsx: true,
-          jsx: true
+          tsx: true
         }
       },
       plugins: ['@typescript-eslint'],
@@ -61,7 +64,11 @@ module.exports = {
   },
   _stylelint: {
     prettier: {
-      extends: ['stylelint-config-prettier']
+      extends: ['stylelint-prettier/recommended'],
+      plugins: ['stylelint-prettier'],
+      rules: {
+        'prettier/prettier': true
+      }
     },
     vue2: {
       extends: ['stylelint-config-recommended-vue']
@@ -72,7 +79,13 @@ module.exports = {
     vite: {},
     webpack: {},
     sass: {
-      extends: ['stylelint-config-standard-scss']
+      overrides: [
+        {
+          files: ['*.scss', '**/*.scss'],
+          customSyntax: 'postcss-scss',
+          extends: ['stylelint-config-recommended-scss']
+        }
+      ]
     }
   },
   _gitHooks: {}

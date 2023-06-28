@@ -12,14 +12,17 @@ module.exports = {
     ],
     vue2: [],
     vue3: ['eslint-plugin-vue@9.15.1'],
-    typescript: ['typescript@5.1.3', '@typescript-eslint/eslint-plugin@5.60.0', '@typescript-eslint/parser@5.60.0']
+    typescript: ['typescript@5.0.2', '@typescript-eslint/eslint-plugin@5.60.0', '@typescript-eslint/parser@5.60.0']
   },
   stylelint: {
     base: [
       'stylelint@15.9.0',
       'stylelint-config-standard@33.0.0',
-      'stylelint-config-recess-order@4.2.0',
-      'stylelint-prettier@3.0.0'
+      'stylelint-order@6.0.3',
+      'stylelint-prettier@3.0.0',
+      'postcss@8.4.24',
+      'postcss-html@1.5.0',
+      'postcss-scss@4.0.6'
     ],
     vue2: ['stylelint-config-recommended-vue@1.4.0'],
     vue3: ['stylelint-config-recommended-vue@1.4.0'],

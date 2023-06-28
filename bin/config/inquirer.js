@@ -89,7 +89,27 @@ const lintChoice = async () => {
   return lintList
 }
 
+// 选择要查看的lint文件
+const fileChoice = async () => {
+  const { lintFileType } = await inquirer.prompt([
+    {
+      type: 'list',
+      name: 'lintFileType',
+      default: 'eslintrc',
+      message: '选择要查看的配置文件',
+      choices: [
+        { value: 'eslintrc', name: 'EsLint' },
+        { value: 'prettierrc', name: 'Prettier' },
+        { value: 'stylelintrc', name: 'StyleLint' },
+        { value: 'commitlintrc', name: 'CommitLint' }
+      ]
+    }
+  ])
+  return lintFileType
+}
+
 module.exports = {
   pkgChoice,
-  lintChoice
+  lintChoice,
+  fileChoice
 }

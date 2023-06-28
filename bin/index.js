@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 const { Command } = require('commander')
-const { Clear, Create, Update } = require('./lint')
+const { Clear, Create, Update, Show } = require('./lint')
 
 const program = new Command()
 
@@ -19,5 +19,10 @@ program
   .command('update')
   .description('更新lint配置')
   .action(() => Update())
+
+program
+  .command('show')
+  .description('查看lint配置')
+  .action(() => Show())
 
 program.parse()
