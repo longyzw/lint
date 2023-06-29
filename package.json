@@ -1,6 +1,6 @@
 {
   "name": "ly-lint",
-  "version": "0.3.0",
+  "version": "0.3.2",
   "description": "创建lint配置文件",
   "bin": {
     "ly-lint": "./bin/index.js"

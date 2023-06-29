@@ -233,11 +233,12 @@ const setLintCommand = (list = []) => {
     })
     const { scripts = {} } = packageJson
     // 生成执行命令
+    // scripts.preinstall = 'pnpm install'
     scripts['lint:show'] = `npx ${getProjectName()} show`
     scripts['lint:eslint'] = `eslint src --fix --ext ${eslintPattern.map((item) => '.' + item).join(',')}`
-    scripts['lint:format'] = `prettier --write "**/*.{${eslintPattern.join(',')}}"`
+    scripts['lint:format'] = `prettier --write "src/**/*.{${eslintPattern.join(',')}}"`
     if (list.includes('stylelint')) {
-      scripts['lint:stylelint'] = `stylelint --fix "**/*.{${stylelintPattern.join(',')}}"`
+      scripts['lint:stylelint'] = `stylelint --fix "src/**/*.{${stylelintPattern.join(',')}}"`
     }
     packageJson.scripts = scripts
     // 生成'lint-staged'配置

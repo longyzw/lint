@@ -203,7 +203,6 @@ const BASE_LINT = {
     es2021: true,
     node: true
   },
-  extends: ['standard'],
   overrides: [],
   parserOptions: {
     ecmaVersion: 'latest',
@@ -214,8 +213,7 @@ const BASE_LINT = {
   },
   plugins: [],
   rules: {
-    'import/no-extraneous-dependencies': 0,
-    'prettier/prettier': 2
+    'import/no-extraneous-dependencies': 0
   },
   ignorePatterns: ['node_modules', 'dist']
 }
