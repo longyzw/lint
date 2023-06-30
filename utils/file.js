@@ -139,7 +139,7 @@ const setLintFile = (list = []) => {
   fileInfoList.forEach(({ name, methods, value }) => {
     writeFile(
       path.join(process.cwd(), name),
-      `const { ${methods} } = require('${getProjectName()}/bin/utils/file')\n\nmodule.exports = ${methods}(${getOptoinsContent(
+      `const { ${methods} } = require('${getProjectName()}/utils/file')\n\nmodule.exports = ${methods}(${getOptoinsContent(
         value
       )})\n`
     )

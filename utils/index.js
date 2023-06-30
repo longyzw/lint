@@ -10,29 +10,12 @@ const {
   setLintCommand,
   setVscodeFile
 } = require('./file')
-const { getAbsolutePath } = require('./utils')
 const { LINT_REGEXP, GIT_HOOKS_FILES } = require('../config/const')
 
 /**
  * 脚本执行过程中的loading效果
  */
 const loading = (text) => ora(text).start()
-/**
- * 脚本执行完成关闭loading效果
- */
-const success = (text, spinner = '') => {
-  spinner ? spinner.succeed(text) : ora(text).succeed()
-}
-
-/**
- * 获取当前项目名称
- * @returns {string} 项目名称
- */
-const getProjectName = () => {
-  const currentPackageJsonPath = getAbsolutePath('../../package.json')
-  const { name } = require(currentPackageJsonPath)
-  return name
-}
 
 /**
  * 移除lint相关文件
@@ -114,19 +97,19 @@ const setInitLintConfig = (list = [], pkgValue = 'pnpm') => {
     // 初始化git，防止git钩子函数关联报错
     execSync('git init')
     execSync('npx husky install')
+    // 生成husky配置文件
+    GIT_HOOKS_FILES.map((item) => writeFile(item.path, item.content))
   }
-  // 生成husky配置文件
-  GIT_HOOKS_FILES.map((item) => writeFile(item.path, item.content))
   // 生成package.json配置
   setLintCommand(newList)
   // 生成vacode的配置文件
-  setVscodeFile(newList)
+  if (newList.includes('vscode')) {
+    setVscodeFile(newList)
+  }
 }
 
 module.exports = {
   loading,
-  success,
-  getProjectName,
   removeLintFile,
   removeLintPlugin,
   sortLintItem,

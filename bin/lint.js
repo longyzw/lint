@@ -1,9 +1,9 @@
 const path = require('path')
 const ora = require('ora')
-const { success, removeLintFile, removeLintPlugin, setInitLintConfig } = require('./utils')
-const { checkNodeEnv, checkLintFile } = require('./utils/check')
-const { removeDirectory } = require('./utils/file')
-const { pkgChoice, lintChoice, fileChoice } = require('./config/inquirer')
+const { removeLintFile, removeLintPlugin, setInitLintConfig } = require('./../utils')
+const { checkNodeEnv, checkLintFile } = require('./../utils/check')
+const { removeDirectory } = require('./../utils/file')
+const { pkgChoice, lintChoice, fileChoice } = require('./../config/inquirer')
 
 const Clear = () => {
   // 检测node环境
@@ -15,7 +15,7 @@ const Clear = () => {
   // 移除husky和vscode文件配置
   removeDirectory(path.join(process.cwd(), '/.husky'))
   removeDirectory(path.join(process.cwd(), '/.vscode'))
-  success('成功移除Lint配置及文件')
+  ora('成功移除Lint配置及文件').succeed()
 }
 
 const Create = async () => {
@@ -26,7 +26,7 @@ const Create = async () => {
   const lintInfo = await lintChoice()
   const pkgValue = await pkgChoice()
   setInitLintConfig(lintInfo, pkgValue)
-  success('成功生成Lint配置及文件')
+  ora('成功生成Lint配置及文件').succeed()
 }
 
 const Update = () => {

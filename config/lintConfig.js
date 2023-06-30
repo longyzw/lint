@@ -132,13 +132,16 @@ module.exports = {
         'eslint.validate': ['typescript']
       },
       sass: {
-        'eslint.validate': ['scss']
+        'eslint.validate': ['scss'],
+        'stylelint.validate': ['scss']
       },
       vue2: {
-        'eslint.validate': ['vue']
+        'eslint.validate': ['vue'],
+        'stylelint.validate': ['vue']
       },
       vue3: {
-        'eslint.validate': ['vue']
+        'eslint.validate': ['vue'],
+        'stylelint.validate': ['vue']
       }
     }
   }

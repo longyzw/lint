@@ -5,12 +5,6 @@ const path = require('path')
  * 脚本执行过程中的loading效果
  */
 const loading = (text) => ora(text).start()
-/**
- * 脚本执行完成关闭loading效果
- */
-const success = (text, spinner = '') => {
-  spinner ? spinner.succeed(text) : ora(text).succeed()
-}
 
 /**
  * 获取绝对路径
@@ -24,7 +18,7 @@ const getAbsolutePath = (targetPath) => (targetPath.startsWith('/') ? targetPath
  * @returns {string} 项目名称
  */
 const getProjectName = () => {
-  const currentPackageJsonPath = getAbsolutePath('../../package.json')
+  const currentPackageJsonPath = getAbsolutePath('../package.json')
   const { name } = require(currentPackageJsonPath)
   return name
 }
@@ -79,4 +73,4 @@ const mergeObjects = (obj1, obj2) => {
   return merged
 }
 
-module.exports = { loading, success, getProjectName, getAbsolutePath, getOptoinsContent, mergeObjects }
+module.exports = { loading, getProjectName, getAbsolutePath, getOptoinsContent, mergeObjects }
