@@ -322,6 +322,25 @@ const BASE_COMMIT = {
   }
 }
 
+// 基础vscode配置
+const BASE_VSCODE = {
+  extensions: {
+    recommendations: [
+      'dbaeumer.vscode-eslint',
+      'esbenp.prettier-vscode',
+      'editorconfig.editorconfig',
+      'usernamehw.errorlens'
+    ]
+  },
+  settings: {
+    'editor.formatOnSave': true,
+    'editor.codeActionsOnSave': {
+      'source.fixAll.eslint': true
+    },
+    'eslint.validate': ['javascript']
+  }
+}
+
 module.exports = {
   LINT_REGEXP,
   LINT_FILE_REGEXP,
@@ -330,5 +349,6 @@ module.exports = {
   BASE_PRETTIER,
   BASE_STYLE,
   BASE_EDITOR,
-  BASE_COMMIT
+  BASE_COMMIT,
+  BASE_VSCODE
 }

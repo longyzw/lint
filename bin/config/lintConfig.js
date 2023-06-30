@@ -14,7 +14,7 @@ module.exports = {
         'vue/no-v-html': 0, // 禁止使用v-html（可通过插件vue-dompurify-html规避）
         'vue/no-side-effects-in-computed-properties': 1, // 禁止在计算属性中修改响应式对象值（可通过调用函数规避）
         'vue/prop-name-casing': 1,
-        'vue/require-default-prop': 1, // prop需要默认值
+        'vue/require-default-prop': 0, // prop需要默认值
         'vue/no-deprecated-v-on-native-modifier': 1, // 禁止弃用的native修饰符
         'vue/no-reserved-component-names': 1, // 禁止使用保留组件名（修改名称来规避）
         'vue/no-deprecated-slot-attribute': 1 // 禁止使用弃用插槽属性（修改插槽使用方式来规避）
@@ -37,7 +37,7 @@ module.exports = {
         'vue/no-v-html': 0, // 禁止使用v-html（可通过插件vue-dompurify-html规避）
         'vue/no-side-effects-in-computed-properties': 1, // 禁止在计算属性中修改响应式对象值（可通过调用函数规避）
         'vue/prop-name-casing': 1,
-        'vue/require-default-prop': 1, // prop需要默认值
+        'vue/require-default-prop': 0, // prop需要默认值
         'vue/no-deprecated-v-on-native-modifier': 1, // 禁止弃用的native修饰符
         'vue/no-reserved-component-names': 1, // 禁止使用保留组件名（修改名称来规避）
         'vue/no-deprecated-slot-attribute': 1 // 禁止使用弃用插槽属性（修改插槽使用方式来规避）
@@ -98,11 +98,48 @@ module.exports = {
     vite: {},
     webpack: {},
     sass: {
-      extends: ['stylelint-config-standard-scss']
+      extends: ['stylelint-config-standard-scss'],
+      rules: {
+        'scss/dollar-variable-pattern': null,
+        'scss/at-mixin-pattern': null
+      }
     },
     less: {
       extends: ['stylelint-config-standard-less']
     }
   },
-  _gitHooks: {}
+  _gitHooks: {},
+  _vsCode: {
+    extensions: {
+      vue2: {
+        recommendations: ['Vue.volar']
+      },
+      vue3: {
+        recommendations: ['Vue.volar']
+      },
+      stylelint: {
+        recommendations: ['stylelint.vscode-stylelint']
+      }
+    },
+    settings: {
+      stylelint: {
+        'editor.codeActionsOnSave': {
+          'source.fixAll.stylelint': true
+        },
+        'stylelint.validate': ['css', 'html', 'postcss']
+      },
+      typescript: {
+        'eslint.validate': ['typescript']
+      },
+      sass: {
+        'eslint.validate': ['scss']
+      },
+      vue2: {
+        'eslint.validate': ['vue']
+      },
+      vue3: {
+        'eslint.validate': ['vue']
+      }
+    }
+  }
 }

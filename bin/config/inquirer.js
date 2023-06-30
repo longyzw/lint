@@ -86,6 +86,15 @@ const lintChoice = async () => {
     }
   ])
   if (gitHooks) lintList.push('gitHooks')
+  // 是否生成vscode配置
+  const { vscode } = await inquirer.prompt([
+    {
+      type: 'confirm',
+      name: 'vscode',
+      message: '是否生成vscode配置 ?'
+    }
+  ])
+  if (vscode) lintList.push('vscode')
   return lintList
 }
 

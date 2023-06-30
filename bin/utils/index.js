@@ -1,7 +1,15 @@
 const ora = require('ora')
 const { execSync } = require('child_process')
 const { checkLintFile } = require('./check')
-const { removeFiles, writePackageJson, writeFile, setLintVersion, setLintFile, setLintCommand } = require('./file')
+const {
+  removeFiles,
+  writePackageJson,
+  writeFile,
+  setLintVersion,
+  setLintFile,
+  setLintCommand,
+  setVscodeFile
+} = require('./file')
 const { getAbsolutePath } = require('./utils')
 const { LINT_REGEXP, GIT_HOOKS_FILES } = require('../config/const')
 
@@ -111,6 +119,8 @@ const setInitLintConfig = (list = [], pkgValue = 'pnpm') => {
   GIT_HOOKS_FILES.map((item) => writeFile(item.path, item.content))
   // 生成package.json配置
   setLintCommand(newList)
+  // 生成vacode的配置文件
+  setVscodeFile(newList)
 }
 
 module.exports = {

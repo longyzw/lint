@@ -4,8 +4,8 @@ const os = require('os')
 const ora = require('ora')
 const { execSync } = require('child_process')
 const { getProjectName, getAbsolutePath, getOptoinsContent, mergeObjects } = require('./utils')
-const { _eslint, _stylelint, _gitHooks } = require('../config/lintConfig')
-const { BASE_LINT, BASE_PRETTIER, BASE_STYLE, BASE_EDITOR, BASE_COMMIT } = require('../config/const')
+const { _eslint, _stylelint, _gitHooks, _vsCode } = require('../config/lintConfig')
+const { BASE_LINT, BASE_PRETTIER, BASE_STYLE, BASE_EDITOR, BASE_COMMIT, BASE_VSCODE } = require('../config/const')
 
 /**
  * 创建一个文件夹，当上级目录不存在时，自动创建
@@ -254,6 +254,25 @@ const setLintCommand = (list = []) => {
   })
 }
 
+/**
+ * 生成commitlint配置文件
+ * @param {array}  list 需要处理的数组
+ * @returns
+ */
+const setVscodeFile = (list = []) => {
+  const vscodeInfoList = [
+    {
+      path: path.join(process.cwd(), `.vscode/settings.json`),
+      content: JSON.stringify(getConfig(BASE_VSCODE.settings, list, _vsCode.settings), null, 2)
+    },
+    {
+      path: path.join(process.cwd(), `.vscode/extensions.json`),
+      content: JSON.stringify(getConfig(BASE_VSCODE.extensions, list, _vsCode.extensions), null, 2)
+    }
+  ]
+  vscodeInfoList.forEach((item) => writeFile(item.path, item.content))
+}
+
 module.exports = {
   writeFile,
   writePackageJson,
@@ -265,5 +284,6 @@ module.exports = {
   eslintConfig,
   stylelintConfig,
   commitlintConfig,
-  setLintCommand
+  setLintCommand,
+  setVscodeFile
 }
