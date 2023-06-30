@@ -1,6 +1,24 @@
 const path = require('path')
 
 /**
+ * lint选项默认排序
+ */
+const LINT_ORDER = [
+  'eslint',
+  'vue2',
+  'vue3',
+  'typescript',
+  'stylelint',
+  'sass',
+  'less',
+  'prettier',
+  'gitHooks',
+  'vite',
+  'webpack',
+  'vscode'
+]
+
+/**
  * lint相关配置所有依赖和文件
  */
 const LINT_REGEXP = /eslint|stylelint|commitlint|prettier|babel|postcss/
@@ -343,6 +361,7 @@ const BASE_VSCODE = {
 }
 
 module.exports = {
+  LINT_ORDER,
   LINT_REGEXP,
   LINT_FILE_REGEXP,
   GIT_HOOKS_FILES,

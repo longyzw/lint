@@ -10,7 +10,7 @@ const {
   setLintCommand,
   setVscodeFile
 } = require('./file')
-const { LINT_REGEXP, GIT_HOOKS_FILES } = require('../config/const')
+const { LINT_ORDER, LINT_REGEXP, GIT_HOOKS_FILES } = require('../config/const')
 
 /**
  * 脚本执行过程中的loading效果
@@ -61,21 +61,8 @@ const removeLintPlugin = () => {
  * @returns {array} 处理完后的数组
  */
 const sortLintItem = (list = []) => {
-  const baseOrder = [
-    'eslint',
-    'vue2',
-    'vue3',
-    'typescript',
-    'stylelint',
-    'sass',
-    'less',
-    'prettier',
-    'gitHooks',
-    'vite',
-    'webpack'
-  ]
   const newList = []
-  baseOrder.forEach((item) => {
+  LINT_ORDER.forEach((item) => {
     if (list.includes(item)) newList.push(item)
   })
   return newList
