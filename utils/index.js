@@ -95,7 +95,6 @@ const setInitLintConfig = (list = [], pkgValue = 'pnpm') => {
       content = 'node_modules'
     }
     const vscodeConfig = ['.vscode/*', '!.vscode/extensions.json', '!.vscode/settings.json']
-    console.log(content.split('\n'))
     const newContent = content.split('\n').filter((item) => item.indexOf('.vscode') === -1)
     newContent.push(...vscodeConfig)
     writeFile(path, newContent.join('\n'))

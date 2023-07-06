@@ -16,7 +16,7 @@ module.exports = {
   },
   stylelint: {
     base: [
-      'stylelint@15.9.0',
+      'stylelint@15.10.1',
       'stylelint-config-standard@33.0.0',
       'stylelint-order@6.0.3',
       'stylelint-prettier@3.0.0',
