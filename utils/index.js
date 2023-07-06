@@ -1,4 +1,5 @@
 const ora = require('ora')
+const fs = require('fs')
 const { execSync } = require('child_process')
 const { checkLintFile } = require('./check')
 const {
@@ -77,9 +78,28 @@ const sortLintItem = (list = []) => {
 const setInitLintConfig = (list = [], pkgValue = 'pnpm') => {
   const newList = sortLintItem(list)
   // 筛选安装对应插件
-  setLintVersion(newList, pkgValue)
+  const allVersion = setLintVersion(newList, pkgValue)
   // 筛选生成对应文件
   setLintFile(newList)
+  // 生成package.json配置
+  setLintCommand(newList)
+  // 生成vacode的配置文件
+  if (newList.includes('vscode')) {
+    setVscodeFile(newList)
+    // 检查git忽略文件设置vscode相关配置
+    const path = `${process.cwd()}/.gitignore`
+    let content = ''
+    try {
+      content = fs.readFileSync(path, 'utf-8')
+    } catch (e) {
+      content = 'node_modules'
+    }
+    const vscodeConfig = ['.vscode/*', '!.vscode/extensions.json', '!.vscode/settings.json']
+    console.log(content.split('\n'))
+    const newContent = content.split('\n').filter((item) => item.indexOf('.vscode') === -1)
+    newContent.push(...vscodeConfig)
+    writeFile(path, newContent.join('\n'))
+  }
   if (newList.includes('gitHooks')) {
     // 初始化git，防止git钩子函数关联报错
     execSync('git init')
@@ -87,12 +107,16 @@ const setInitLintConfig = (list = [], pkgValue = 'pnpm') => {
     // 生成husky配置文件
     GIT_HOOKS_FILES.map((item) => writeFile(item.path, item.content))
   }
-  // 生成package.json配置
-  setLintCommand(newList)
-  // 生成vacode的配置文件
-  if (newList.includes('vscode')) {
-    setVscodeFile(newList)
+  console.log('安装以下依赖：', allVersion.join(' '))
+
+  const spinner = ora('正在安装相关依赖，请稍等').start()
+  try {
+    execSync(`${pkgValue} i -D ${allVersion.join(' ')}`)
+  } catch (error) {
+    spinner.fail('依赖安装失败:', error)
+    process.exit()
   }
+  spinner.succeed('成功安装Lint相关依赖')
 }
 
 module.exports = {

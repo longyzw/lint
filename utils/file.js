@@ -1,8 +1,6 @@
 const fs = require('fs')
 const path = require('path')
 const os = require('os')
-const ora = require('ora')
-const { execSync } = require('child_process')
 const { getProjectName, getAbsolutePath, getOptoinsContent, mergeObjects } = require('./utils')
 const { _eslint, _stylelint, _gitHooks, _vsCode } = require('../config/lintConfig')
 const { BASE_LINT, BASE_PRETTIER, BASE_STYLE, BASE_EDITOR, BASE_COMMIT, BASE_VSCODE } = require('../config/const')
@@ -103,17 +101,7 @@ const setLintVersion = (list = [], pkgValue = 'pnpm') => {
     }
   })
 
-  console.log('安装以下依赖：', allVersion.join(' '))
-
-  const spinner = ora('正在安装相关依赖，请稍等').start()
-
-  try {
-    execSync(`${pkgValue} i -D ${allVersion.join(' ')}`)
-  } catch (error) {
-    spinner.fail('依赖安装失败:', error)
-    process.exit()
-  }
-  spinner.succeed('成功安装Lint相关依赖')
+  return allVersion
 }
 
 /**
