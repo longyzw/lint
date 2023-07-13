@@ -1,0 +1,25 @@
+{
+  "root": "true",
+  "compilerOptions": {
+    "target": "ES6",
+    "module": "CommonJS",
+    "sourceMap": false,
+    "moduleResolution": "node",
+    "allowJs": false,
+    "strict": true,
+    "noUnusedLocals": true,
+    "resolveJsonModule": true,
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "removeComments": false,
+    "outDir": "./dist",
+    "baseUrl": ".",
+    "declaration": true,
+    "paths": {
+      "@utils/*": ["./utils/*"]
+    },
+    "types": ["node"]
+  },
+  "include": ["bin/**/*.ts", "utils/**/*.ts"],
+  "exclude": ["node_modules"]
+}

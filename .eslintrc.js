@@ -11,5 +11,7 @@ module.exports = {
     ecmaVersion: 'latest'
   },
   plugins: ['prettier'],
-  rules: {}
+  rules: {
+    'no-useless-return': 0
+  }
 }
